@@ -5,6 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <name>EMnify Java SDK :: Parent</name>
+    <description>
+        The EMnify Java SDK module holds the client classes that are used for communicating with EMnify REST API
+    </description>
+    <url>https://github.com/EMnify/emnify-sdk-java</url>
 
     <groupId>com.emnify.sdk</groupId>
     <artifactId>emnify-parent</artifactId>
@@ -16,6 +20,20 @@
         <url>https://www.emnify.com</url>
     </organization>
     <inceptionYear>2021</inceptionYear>
+
+    <developers>
+        <developer>
+            <name>Yulia Filonenko</name>
+            <email>julieee8909@gmail.com</email>
+            <url>https://github.com/lessonsjul</url>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/EMnify/emnify-sdk-java.git</connection>
+        <developerConnection>scm:git:ssh://github.com:EMnify/emnify-sdk-java.git</developerConnection>
+        <url>http://github.com/EMnify/emnify-sdk-java/tree/main</url>
+    </scm>
 
     <licenses>
         <license>
