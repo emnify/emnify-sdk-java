@@ -170,6 +170,7 @@
                             <goal>sign</goal>
                         </goals>
                         <configuration>
+                            <skip>true</skip>
                             <keyname>sdk-development@emnify.com</keyname>
                             <gpgArguments>
                                 <arg>--pinentry-mode</arg>
