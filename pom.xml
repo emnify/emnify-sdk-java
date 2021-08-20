@@ -31,7 +31,7 @@
 
     <scm>
         <connection>scm:git:git://github.com/EMnify/emnify-sdk-java.git</connection>
-        <developerConnection>scm:git:ssh://github.com:EMnify/emnify-sdk-java.git</developerConnection>
+        <developerConnection>scm:git:ssh://github.com/EMnify/emnify-sdk-java.git</developerConnection>
         <url>http://github.com/EMnify/emnify-sdk-java/tree/main</url>
     </scm>
 
