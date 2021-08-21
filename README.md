@@ -1,5 +1,7 @@
 # emnify-sdk-java
 
+[![Maven Central](https://img.shields.io/maven-central/v/com.emnify.sdk/emnify)](https://search.maven.org/search?q=g:com.emnify.sddk%20AND%20a:emnify)
+
 ## Documentation
 
 The EMnify System Documentation can be found [here](https://cdn.emnify.net/api/doc/index.html).
