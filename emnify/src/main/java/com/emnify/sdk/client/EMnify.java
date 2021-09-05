@@ -48,14 +48,11 @@ public class EMnify {
 
     /**
      * Performs api client authorization according to configured system environment variables:
-     * 1. EMNIFY_APPLICATION_TOKEN - is used for Application Authentication
-     * @see <a href="https://cdn.emnify.net/api/doc/application-token.html" target="_blank">Application Token</a>
-     *
-     * 2. EMNIFY_USERNAME and EMNIFY_USERNAME - are used for User Authentication
-     * @see <a href="https://cdn.emnify.net/api/doc/basic-auth.html" target="_blank">User Authentication</a>
-     *
-     *
-     * @return authorized EMnify
+     * <ul>
+     *     <li>EMNIFY_APPLICATION_TOKEN - is used for <a href="https://cdn.emnify.net/api/doc/application-token.html" target="_blank">Application Token Authentication</a></li>
+     *     <li>EMNIFY_USERNAME and EMNIFY_USERNAME - are used for <a href="https://cdn.emnify.net/api/doc/basic-auth.html" target="_blank">User Authentication</a></li>
+     * </ul>
+     * @return instance of authorized EMnify Client
      * @throws ClientException if authentication failed
      */
     public static EMnify authenticate() throws ClientException {
@@ -76,7 +73,8 @@ public class EMnify {
      *
      * @param username username
      * @param password password
-     * @return authorized EMnify client
+     *
+     * @return instance of authorized EMnify Client
      * @throws ClientException if authentication failed
      */
     public static EMnify authenticate(String username, String password) throws ClientException {
@@ -87,7 +85,8 @@ public class EMnify {
      * Performs api client authorization with application token
      *
      * @param appToken application token value
-     * @return authorized EMnify client
+     *
+     * @return instance of authorized EMnify Client
      * @throws ClientException if authentication failed
      */
     public static EMnify authenticate(String appToken) throws ClientException {
@@ -112,9 +111,9 @@ public class EMnify {
     }
 
     /**
-     * Refresh auth token if it expired and refresh token is not expired
+     * Refresh auth token if it is expired and refresh token is not expired
      *
-     * @throws ClientException
+     * @throws ClientException if attempt of authentication failed
      */
     public void refreshAuthIfNecessary() throws ClientException {
         if (authentication == null) {
@@ -128,6 +127,11 @@ public class EMnify {
         return new EndpointClient(apiClient, authenticationRetrier);
     }
 
+    /**
+     * Returns a string representation of the object
+     * This is useful for testing and debugging. Sensitive data will be redacted from this string using a placeholder value.
+     * @return
+     */
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("EMnify{");

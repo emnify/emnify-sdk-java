@@ -6,7 +6,9 @@
 
 The EMnify System Documentation can be found [here](https://cdn.emnify.net/api/doc/index.html).
 
-The OpenAPI Documentation can be found [here](https://cdn.emnify.net/api/doc/swagger.html). 
+The OpenAPI Documentation can be found [here](https://cdn.emnify.net/api/doc/swagger.html).
+
+The Java library documentation can be found [here](https://emnify.github.io/emnify-sdk-java/).
 
 ## Requirements
 

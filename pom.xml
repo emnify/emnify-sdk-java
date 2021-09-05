@@ -46,6 +46,7 @@
         <java.version>1.8</java.version>
         <codehaus.plugin.version>2.0.0</codehaus.plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <emnifyjavasdk.version>${project.version}</emnifyjavasdk.version>
     </properties>
 
     <modules>
@@ -85,6 +86,50 @@
                                 </configuration>
                             </execution>
                         </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>public-javadoc</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>3.3.0</version>
+                        <configuration>
+                            <doclint>all,-missing</doclint>
+                            <outputDirectory>${project.basedir}/apidocs</outputDirectory>
+                            <reportOutputDirectory>${project.basedir}/apidocs</reportOutputDirectory>
+                            <show>public</show>
+                            <includeDependencySources>false</includeDependencySources>
+                            <excludePackageNames>
+                                com.emnify.sdk:com.emnify.sdk.api:com.emnify.sdk.api.*:com.emnify.sdk.auth
+                            </excludePackageNames>
+                            <author>false</author>
+                            <version>true</version>
+                            <use>false</use>
+                            <notree>true</notree>
+                            <groups>
+                                <group>
+                                    <title>Model</title>
+                                    <packages>com.emnify.sdk.model.*:com.emnify.sdk.client.model.*</packages>
+                                </group>
+                                <group>
+                                    <title>Client</title>
+                                    <packages>com.emnify.sdk.client.*</packages>
+                                </group>
+                            </groups>
+                            <nodeprecatedlist>true</nodeprecatedlist>
+                            <encoding>UTF-8</encoding>
+                            <docencoding>UTF-8</docencoding>
+                            <doctitle>EMnify SDK for Java Specification</doctitle>
+                            <windowtitle>EMnify SDK for Java - ${emnifyjavasdk.version}</windowtitle>
+                            <packagesheader>EMnify SDK for Java</packagesheader>
+                            <header><![CDATA[<h2>EMnify SDK for Java - ${project.version}</h2>]]></header>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>

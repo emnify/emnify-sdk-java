@@ -58,4 +58,12 @@ public class ApplicationTokenAuthentication extends AbstractAuthentication {
         // always true
         return true;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("ApplicationTokenAuthentication{");
+        sb.append("tokens=").append(tokens);
+        sb.append('}');
+        return sb.toString();
+    }
 }

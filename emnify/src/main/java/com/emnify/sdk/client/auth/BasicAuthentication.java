@@ -97,4 +97,13 @@ public class BasicAuthentication extends AbstractAuthentication {
         }
         return sb.toString();
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("BasicAuthentication{");
+        sb.append("tokens=").append(tokens);
+        sb.append(", username='").append(username).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }
