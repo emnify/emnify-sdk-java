@@ -46,7 +46,6 @@
         <java.version>1.8</java.version>
         <codehaus.plugin.version>2.0.0</codehaus.plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <emnifyjavasdk.version>${project.version}</emnifyjavasdk.version>
     </properties>
 
     <modules>
@@ -128,7 +127,7 @@
                             <doctitle>EMnify SDK for Java Specification</doctitle>
                             <windowtitle>EMnify SDK for Java - ${emnifyjavasdk.version}</windowtitle>
                             <packagesheader>EMnify SDK for Java</packagesheader>
-                            <header><![CDATA[<h2>EMnify SDK for Java - ${project.version}</h2>]]></header>
+                            <header><![CDATA[<h2>EMnify SDK for Java - ${emnifyjavasdk.version}</h2>]]></header>
                         </configuration>
                     </plugin>
                 </plugins>

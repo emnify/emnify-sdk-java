@@ -1,8 +1,12 @@
 name: Documentation generation CI
 
 on:
-  push:
-    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'EMnify SDK  version'
+        required: true
+        default: ''
 
 jobs:
   build:
@@ -16,7 +20,7 @@ jobs:
           java-version: '8'
           distribution: 'adopt'
       - name: Javadoc Action
-        run: mvn clean javadoc:aggregate -Ppublic-javadoc
+        run: mvn javadoc:aggregate -Ppublic-javadoc "-Demnifyjavasdk.version=${{ github.event.inputs.version }}"
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
