@@ -1,4 +1,4 @@
-name: Java CI
+name: Build
 on:
   pull_request:
     branches: '**'
@@ -21,3 +21,9 @@ jobs:
         run: mvn --batch-mode install
       - name: Run the Maven verify phase for the examples
         run: mvn -f examples/quota-management --batch-mode --update-snapshots verify
+
+#       Upload code coverage report to Codecov
+      - name: Test Coverage
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}

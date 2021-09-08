@@ -1,4 +1,4 @@
-name: Documentation generation CI
+name: Javadoc
 
 on:
   workflow_dispatch:
