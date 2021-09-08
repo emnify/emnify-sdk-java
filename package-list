@@ -4,4 +4,3 @@ com.emnify.sdk.client.config
 com.emnify.sdk.client.exception
 com.emnify.sdk.client.model
 com.emnify.sdk.client.retrier
-com.emnify.sdk.model
