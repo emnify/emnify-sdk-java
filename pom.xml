@@ -46,6 +46,7 @@
         <java.version>1.8</java.version>
         <codehaus.plugin.version>2.0.0</codehaus.plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.javadoc.skip>true</maven.javadoc.skip>
     </properties>
 
     <modules>
@@ -92,6 +93,9 @@
 
         <profile>
             <id>public-javadoc</id>
+            <properties>
+                <maven.javadoc.skip>false</maven.javadoc.skip>
+            </properties>
             <build>
                 <plugins>
                     <plugin>
@@ -105,7 +109,7 @@
                             <show>public</show>
                             <includeDependencySources>false</includeDependencySources>
                             <excludePackageNames>
-                                com.emnify.sdk:com.emnify.sdk.api:com.emnify.sdk.api.*:com.emnify.sdk.auth
+                                com.emnify.sdk:com.emnify.sdk.api:com.emnify.sdk.api.*:com.emnify.sdk.model:com.emnify.sdk.model.*:com.emnify.sdk.auth
                             </excludePackageNames>
                             <author>false</author>
                             <version>true</version>
