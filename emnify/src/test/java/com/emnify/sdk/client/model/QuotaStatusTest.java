@@ -20,29 +20,28 @@
 
 package com.emnify.sdk.client.model;
 
-import com.emnify.sdk.model.QuotaStatus;
 import org.junit.Test;
-import static com.emnify.sdk.client.model.QuotaStatusType.ACTIVE;
-import static com.emnify.sdk.client.model.QuotaStatusType.EXHAUSTED;
-import static com.emnify.sdk.client.model.QuotaStatusType.EXPIRED;
+import static com.emnify.sdk.client.model.QuotaStatus.ACTIVE;
+import static com.emnify.sdk.client.model.QuotaStatus.EXHAUSTED;
+import static com.emnify.sdk.client.model.QuotaStatus.EXPIRED;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-public class QuotaStatusTypeTest {
+public class QuotaStatusTest {
 
     @Test
     public void test_ToClientModel_UnknownType() {
-        QuotaStatusType result =
-                QuotaStatusType.toClientModel(new QuotaStatus());
+        QuotaStatus result =
+                QuotaStatus.toClientModel(new com.emnify.sdk.model.QuotaStatus());
 
         assertNull(result);
     }
 
     @Test
     public void test_ToClientModel_ActiveType() {
-        QuotaStatusType result =
-                QuotaStatusType.toClientModel(new QuotaStatus().id(QuotaStatus.IdEnum.NUMBER_1));
+        QuotaStatus result =
+                QuotaStatus.toClientModel(new com.emnify.sdk.model.QuotaStatus().id(com.emnify.sdk.model.QuotaStatus.IdEnum.NUMBER_1));
 
         assertNotNull(result);
         assertEquals(ACTIVE, result);
@@ -50,8 +49,8 @@ public class QuotaStatusTypeTest {
 
     @Test
     public void test_ToClientModel_ExhaustedType() {
-        QuotaStatusType result =
-                QuotaStatusType.toClientModel(new QuotaStatus().id(QuotaStatus.IdEnum.NUMBER_2));
+        QuotaStatus result =
+                QuotaStatus.toClientModel(new com.emnify.sdk.model.QuotaStatus().id(com.emnify.sdk.model.QuotaStatus.IdEnum.NUMBER_2));
 
         assertNotNull(result);
         assertEquals(EXHAUSTED, result);
@@ -59,7 +58,7 @@ public class QuotaStatusTypeTest {
 
     @Test
     public void test_ToClientModel_ExpiredType() {
-        QuotaStatusType result = QuotaStatusType.toClientModel(new QuotaStatus().id(QuotaStatus.IdEnum.NUMBER_3));
+        QuotaStatus result = QuotaStatus.toClientModel(new com.emnify.sdk.model.QuotaStatus().id(com.emnify.sdk.model.QuotaStatus.IdEnum.NUMBER_3));
 
         assertNotNull(result);
         assertEquals(EXPIRED, result);

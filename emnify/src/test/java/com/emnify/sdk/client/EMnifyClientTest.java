@@ -26,7 +26,7 @@ import com.emnify.sdk.ApiClient;
 import com.emnify.sdk.client.auth.ApplicationTokenAuthentication;
 import com.emnify.sdk.client.auth.BasicAuthentication;
 import com.emnify.sdk.client.config.Configuration;
-import com.emnify.sdk.client.exception.ClientException;
+import com.emnify.sdk.client.exception.SdkException;
 import com.emnify.sdk.client.auth.AuthenticationTokens;
 import com.emnify.sdk.client.util.TestUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -134,10 +134,10 @@ public class EMnifyClientTest {
                 .withArguments(APPLICATION_TOKEN)
                 .thenReturn(mock);
 
-        doThrow(new ClientException()).when(mock).authenticate(apiClientMock);
+        doThrow(new SdkException("Exception occurs")).when(mock).authenticate(apiClientMock);
 
         // execute
-        TestUtils.expectException(() -> EMnify.authenticate(APPLICATION_TOKEN), ClientException.class);
+        TestUtils.expectException(() -> EMnify.authenticate(APPLICATION_TOKEN), SdkException.class);
 
         // verify
         verifyNew(ApplicationTokenAuthentication.class).withArguments(APPLICATION_TOKEN);
@@ -173,10 +173,10 @@ public class EMnifyClientTest {
                 .withArguments(USERNAME, PASSWORD)
                 .thenReturn(mock);
 
-        doThrow(new ClientException()).when(mock).authenticate(apiClientMock);
+        doThrow(new SdkException("Exception occurs")).when(mock).authenticate(apiClientMock);
 
         // execute
-        TestUtils.expectException(() -> EMnify.authenticate(USERNAME, PASSWORD), ClientException.class);
+        TestUtils.expectException(() -> EMnify.authenticate(USERNAME, PASSWORD), SdkException.class);
 
         // verify
         verifyNew(BasicAuthentication.class).withArguments(USERNAME, PASSWORD);

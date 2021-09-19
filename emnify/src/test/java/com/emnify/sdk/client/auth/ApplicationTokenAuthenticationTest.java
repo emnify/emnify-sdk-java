@@ -25,8 +25,8 @@ import java.util.Date;
 import com.emnify.sdk.ApiClient;
 import com.emnify.sdk.ApiException;
 import com.emnify.sdk.api.AuthenticationApi;
-import com.emnify.sdk.client.exception.ClientException;
 import com.emnify.sdk.client.config.Configuration;
+import com.emnify.sdk.client.exception.SdkApiException;
 import com.emnify.sdk.client.util.TestUtils;
 import com.emnify.sdk.model.Authentication;
 import com.emnify.sdk.model.AuthenticationResponse;
@@ -39,9 +39,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import static com.emnify.sdk.client.util.TestUtils.setupApiClientMock;
 import static com.emnify.sdk.client.util.TestUtils.setupAuthenticationApiMock;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
@@ -109,7 +107,7 @@ public class ApplicationTokenAuthenticationTest {
 
         // execute
         TestUtils.expectException(() -> new ApplicationTokenAuthentication(APPLICATION_TOKEN).authenticate(apiClientMock),
-                ClientException.class, "Unable to authenticate by application token: " + APPLICATION_TOKEN);
+                SdkApiException.class, "Unable to authenticate by application token: " + APPLICATION_TOKEN + " Cause: null null");
 
         // verify
         verify(authApiMock).authenticate(request);

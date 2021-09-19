@@ -25,7 +25,7 @@ import com.emnify.sdk.client.auth.BasicAuthenticationTest;
 import com.emnify.sdk.client.config.ConfigurationTest;
 import com.emnify.sdk.client.model.AuthenticationTokensTest;
 import com.emnify.sdk.client.model.QuotaActionOnExhaustionTest;
-import com.emnify.sdk.client.model.QuotaStatusTypeTest;
+import com.emnify.sdk.client.model.QuotaStatusTest;
 import com.emnify.sdk.client.retrier.AuthenticationRetrierTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -49,7 +49,7 @@ import org.junit.runners.Suite;
 
         // models
         QuotaActionOnExhaustionTest.class,
-        QuotaStatusTypeTest.class,
+        QuotaStatusTest.class,
 
 })
 public class TestSuite {

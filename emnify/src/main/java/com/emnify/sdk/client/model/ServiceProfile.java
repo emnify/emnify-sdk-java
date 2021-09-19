@@ -18,15 +18,28 @@
  * #L%
  */
 
-package com.emnify.sdk.client;
+package com.emnify.sdk.client.model;
 
-import com.emnify.sdk.ApiException;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-public class ApiExceptionUtils {
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode
+@AllArgsConstructor
+public class ServiceProfile {
+    private Integer id;
+    private String name;
 
-    public static final int UNAUTHORIZED_CODE = 401;
-
-    public static boolean isUnauthorizedException(ApiException exception) {
-        return exception != null && exception.getCode() == UNAUTHORIZED_CODE;
+    public static ServiceProfile toClientModel(com.emnify.sdk.model.ServiceProfile source) {
+        if (source != null) {
+            return new ServiceProfile(source.getId(), source.getName());
+        } else {
+            return null;
+        }
     }
 }

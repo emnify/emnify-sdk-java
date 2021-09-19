@@ -39,7 +39,7 @@ Add this dependency to your project's POM:
 <dependency>
   <groupId>com.emnify.sdk</groupId>
   <artifactId>emnify-api</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.1.0-SNAPSHOT</version>
   <scope>compile</scope>
 </dependency>
 ```
@@ -49,7 +49,7 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "com.emnify.sdk:emnify-api:1.0.0-SNAPSHOT"
+compile "com.emnify.sdk:emnify-api:1.1.0-SNAPSHOT"
 ```
 
 ### Others
@@ -62,7 +62,7 @@ mvn clean package
 
 Then manually install the following JARs:
 
-* `target/emnify-api-1.0.0-SNAPSHOT.jar`
+* `target/emnify-api-1.1.0-SNAPSHOT.jar`
 * `target/lib/*.jar`
 
 ## Getting Started
@@ -84,7 +84,7 @@ public class Example {
     defaultClient.setBasePath("https://cdn.emnify.net");
 
     AuthenticationApi apiInstance = new AuthenticationApi(defaultClient);
-    Authentication authentication = new Authentication(); // Authentication | 
+    Authentication authentication = new Authentication(); // Authentication | Authentication using Application Tokens or user/password combination
     try {
       AuthenticationResponse result = apiInstance.authenticate(authentication);
       System.out.println(result);
@@ -122,9 +122,7 @@ Class | Method | HTTP request | Description
  - [ChangePassword422response](docs/ChangePassword422response.md)
  - [ChangeQuota422Response](docs/ChangeQuota422Response.md)
  - [Endpoint](docs/Endpoint.md)
- - [Endpoint1](docs/Endpoint1.md)
  - [EndpointQuota](docs/EndpointQuota.md)
- - [EndpointQuota1](docs/EndpointQuota1.md)
  - [EndpointStatus](docs/EndpointStatus.md)
  - [InlineResponse404](docs/InlineResponse404.md)
  - [IpAddressSpace](docs/IpAddressSpace.md)
@@ -148,6 +146,3 @@ Authentication schemes defined for the API:
 It's recommended to create an instance of `ApiClient` per thread in a multithreaded environment to avoid any potential issues.
 
 ## Author
-
-
-
