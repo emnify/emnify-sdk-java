@@ -5,13 +5,13 @@ import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
 import java.util.List;
 
-import com.emnify.sdk.client.exception.ClientException;
+import com.emnify.sdk.client.exception.SdkException;
 import com.emnify.sdk.client.EMnify;
 import com.emnify.sdk.client.EndpointClient;
+import com.emnify.sdk.client.model.Endpoint;
 import com.emnify.sdk.client.model.QueryParams;
 import com.emnify.sdk.client.model.Quota;
 import com.emnify.sdk.client.model.QuotaActionOnExhaustion;
-import com.emnify.sdk.model.Endpoint;
 
 /**
  * This example shows how to manage endpoint's quota data.
@@ -35,7 +35,7 @@ public class QuotaManagementExample {
     private static final int EXPIRATION_SLOT = 7;
     private static final TemporalUnit EXPIRATION_UNIT = ChronoUnit.DAYS;
 
-    public static void main(String[] args) throws ClientException {
+    public static void main(String[] args) throws SdkException {
         EMnify emnifyClient = EMnify.authenticate();
         EndpointClient endpointClient = emnifyClient.buildEndpointClient();
 
@@ -53,7 +53,7 @@ public class QuotaManagementExample {
             Quota quota = endpointClient.getQuota(endpointId);
             quotaVolume = quota.getVolume();
             System.out.println("Quota volume is set to " + quota.getVolume() + " and expires " + quota.getExpiryDate());
-        } catch (ClientException e) {
+        } catch (SdkException e) {
             System.out.println("Fetching quota exception: " + e.getMessage());
         }
 

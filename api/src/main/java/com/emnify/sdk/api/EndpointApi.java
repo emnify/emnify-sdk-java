@@ -38,9 +38,7 @@ import java.io.IOException;
 import com.emnify.sdk.model.ChangePassword422response;
 import com.emnify.sdk.model.ChangeQuota422Response;
 import com.emnify.sdk.model.Endpoint;
-import com.emnify.sdk.model.Endpoint1;
 import com.emnify.sdk.model.EndpointQuota;
-import com.emnify.sdk.model.EndpointQuota1;
 import com.emnify.sdk.model.Model40xResponse;
 
 import java.lang.reflect.Type;
@@ -70,7 +68,7 @@ public class EndpointApi {
 
     /**
      * Build call for createEndpoint
-     * @param endpoint1  (required)
+     * @param endpoint  (required)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -83,8 +81,8 @@ public class EndpointApi {
         <tr><td> 422 </td><td> Unprocessable Entity. See HTTP response body for details. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call createEndpointCall(Endpoint1 endpoint1, final ApiCallback _callback) throws ApiException {
-        Object localVarPostBody = endpoint1;
+    public okhttp3.Call createEndpointCall(Endpoint endpoint, final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = endpoint;
 
         // create path and map variables
         String localVarPath = "/api/v1/endpoint";
@@ -114,15 +112,15 @@ public class EndpointApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call createEndpointValidateBeforeCall(Endpoint1 endpoint1, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call createEndpointValidateBeforeCall(Endpoint endpoint, final ApiCallback _callback) throws ApiException {
         
-        // verify the required parameter 'endpoint1' is set
-        if (endpoint1 == null) {
-            throw new ApiException("Missing the required parameter 'endpoint1' when calling createEndpoint(Async)");
+        // verify the required parameter 'endpoint' is set
+        if (endpoint == null) {
+            throw new ApiException("Missing the required parameter 'endpoint' when calling createEndpoint(Async)");
         }
         
 
-        okhttp3.Call localVarCall = createEndpointCall(endpoint1, _callback);
+        okhttp3.Call localVarCall = createEndpointCall(endpoint, _callback);
         return localVarCall;
 
     }
@@ -130,7 +128,7 @@ public class EndpointApi {
     /**
      * Create Endpoint
      * If a &#x60;sim&#x60; object is provided, the SIM with the contained ID will be assigned to the endpoint. The &#x60;activate&#x60; property defaults to &#x60;true&#x60; and can be omitted unless the SIM should not be activated with this API call.  The following fields may be provided: * &#x60;name&#x60; (String required) * &#x60;service_profile&#x60; (Object required) * &#x60;tariff_profile&#x60; (Object required) * &#x60;status&#x60; (Object required) - &#x60;0&#x60; &#x3D; __Enabled__, &#x60;1&#x60; &#x3D; __Disabled__! * &#x60;tags&#x60; (String optional) * &#x60;imei&#x60; (String optional) * &#x60;imei_lock&#x60; (Boolean optional) * &#x60;sim&#x60; (Object optional)   - &#x60;id&#x60; (number required) SIM ID to be assigned to this endpoint   - &#x60;activate&#x60; (Boolean, optional, default:true) * &#x60;ip_address&#x60; (String optional) * &#x60;ip_address_space&#x60; (Object, optional if IP address is omitted, mandatory when IP address is set) 
-     * @param endpoint1  (required)
+     * @param endpoint  (required)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table summary="Response Details" border="1">
@@ -141,14 +139,14 @@ public class EndpointApi {
         <tr><td> 422 </td><td> Unprocessable Entity. See HTTP response body for details. </td><td>  -  </td></tr>
      </table>
      */
-    public void createEndpoint(Endpoint1 endpoint1) throws ApiException {
-        createEndpointWithHttpInfo(endpoint1);
+    public void createEndpoint(Endpoint endpoint) throws ApiException {
+        createEndpointWithHttpInfo(endpoint);
     }
 
     /**
      * Create Endpoint
      * If a &#x60;sim&#x60; object is provided, the SIM with the contained ID will be assigned to the endpoint. The &#x60;activate&#x60; property defaults to &#x60;true&#x60; and can be omitted unless the SIM should not be activated with this API call.  The following fields may be provided: * &#x60;name&#x60; (String required) * &#x60;service_profile&#x60; (Object required) * &#x60;tariff_profile&#x60; (Object required) * &#x60;status&#x60; (Object required) - &#x60;0&#x60; &#x3D; __Enabled__, &#x60;1&#x60; &#x3D; __Disabled__! * &#x60;tags&#x60; (String optional) * &#x60;imei&#x60; (String optional) * &#x60;imei_lock&#x60; (Boolean optional) * &#x60;sim&#x60; (Object optional)   - &#x60;id&#x60; (number required) SIM ID to be assigned to this endpoint   - &#x60;activate&#x60; (Boolean, optional, default:true) * &#x60;ip_address&#x60; (String optional) * &#x60;ip_address_space&#x60; (Object, optional if IP address is omitted, mandatory when IP address is set) 
-     * @param endpoint1  (required)
+     * @param endpoint  (required)
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -160,15 +158,15 @@ public class EndpointApi {
         <tr><td> 422 </td><td> Unprocessable Entity. See HTTP response body for details. </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> createEndpointWithHttpInfo(Endpoint1 endpoint1) throws ApiException {
-        okhttp3.Call localVarCall = createEndpointValidateBeforeCall(endpoint1, null);
+    public ApiResponse<Void> createEndpointWithHttpInfo(Endpoint endpoint) throws ApiException {
+        okhttp3.Call localVarCall = createEndpointValidateBeforeCall(endpoint, null);
         return localVarApiClient.execute(localVarCall);
     }
 
     /**
      * Create Endpoint (asynchronously)
      * If a &#x60;sim&#x60; object is provided, the SIM with the contained ID will be assigned to the endpoint. The &#x60;activate&#x60; property defaults to &#x60;true&#x60; and can be omitted unless the SIM should not be activated with this API call.  The following fields may be provided: * &#x60;name&#x60; (String required) * &#x60;service_profile&#x60; (Object required) * &#x60;tariff_profile&#x60; (Object required) * &#x60;status&#x60; (Object required) - &#x60;0&#x60; &#x3D; __Enabled__, &#x60;1&#x60; &#x3D; __Disabled__! * &#x60;tags&#x60; (String optional) * &#x60;imei&#x60; (String optional) * &#x60;imei_lock&#x60; (Boolean optional) * &#x60;sim&#x60; (Object optional)   - &#x60;id&#x60; (number required) SIM ID to be assigned to this endpoint   - &#x60;activate&#x60; (Boolean, optional, default:true) * &#x60;ip_address&#x60; (String optional) * &#x60;ip_address_space&#x60; (Object, optional if IP address is omitted, mandatory when IP address is set) 
-     * @param endpoint1  (required)
+     * @param endpoint  (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -181,9 +179,9 @@ public class EndpointApi {
         <tr><td> 422 </td><td> Unprocessable Entity. See HTTP response body for details. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call createEndpointAsync(Endpoint1 endpoint1, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call createEndpointAsync(Endpoint endpoint, final ApiCallback<Void> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = createEndpointValidateBeforeCall(endpoint1, _callback);
+        okhttp3.Call localVarCall = createEndpointValidateBeforeCall(endpoint, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
         return localVarCall;
     }
@@ -414,7 +412,7 @@ public class EndpointApi {
     /**
      * Build call for endpointQuotaDataByEndpointIdPost
      * @param endpointId The numeric ID of an Endpoint (required)
-     * @param endpointQuota1  (required)
+     * @param endpointQuota  (required)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -425,8 +423,8 @@ public class EndpointApi {
         <tr><td> 422 </td><td> Unprocessable Entity. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call endpointQuotaDataByEndpointIdPostCall(Integer endpointId, EndpointQuota1 endpointQuota1, final ApiCallback _callback) throws ApiException {
-        Object localVarPostBody = endpointQuota1;
+    public okhttp3.Call endpointQuotaDataByEndpointIdPostCall(Integer endpointId, EndpointQuota endpointQuota, final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = endpointQuota;
 
         // create path and map variables
         String localVarPath = "/api/v1/endpoint/{endpoint_id}/quota/data"
@@ -457,20 +455,20 @@ public class EndpointApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call endpointQuotaDataByEndpointIdPostValidateBeforeCall(Integer endpointId, EndpointQuota1 endpointQuota1, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call endpointQuotaDataByEndpointIdPostValidateBeforeCall(Integer endpointId, EndpointQuota endpointQuota, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'endpointId' is set
         if (endpointId == null) {
             throw new ApiException("Missing the required parameter 'endpointId' when calling endpointQuotaDataByEndpointIdPost(Async)");
         }
         
-        // verify the required parameter 'endpointQuota1' is set
-        if (endpointQuota1 == null) {
-            throw new ApiException("Missing the required parameter 'endpointQuota1' when calling endpointQuotaDataByEndpointIdPost(Async)");
+        // verify the required parameter 'endpointQuota' is set
+        if (endpointQuota == null) {
+            throw new ApiException("Missing the required parameter 'endpointQuota' when calling endpointQuotaDataByEndpointIdPost(Async)");
         }
         
 
-        okhttp3.Call localVarCall = endpointQuotaDataByEndpointIdPostCall(endpointId, endpointQuota1, _callback);
+        okhttp3.Call localVarCall = endpointQuotaDataByEndpointIdPostCall(endpointId, endpointQuota, _callback);
         return localVarCall;
 
     }
@@ -479,7 +477,7 @@ public class EndpointApi {
      * Set Data Quota
      * At any time, a new data quota can be set for an endpoint. At an initial state when no data quota is set, the endpoint will be denied from using data services. To top-up the data volume you need to retrieve the currently remaining volume, increase it by the top-up volume and set it as the new quota volume.  The following parameters can be configured: * &#x60;status&#x60; - The status of the quota (mandatory):   - 1: &#x60;ACTIVE&#x60;   - 2: &#x60;EXHAUSTED&#x60;   - 3: &#x60;EXPIRED&#x60; * &#x60;volume&#x60;: The volume left on this quota in MB * &#x60;expiry_date&#x60;: Timestamp when this quota will expire and the endpoint will definitely be denied from using further data services (mandatory) * &#x60;auto_refill&#x60;: Wether the quota shall be refilled on a daily basis (defaults to disabled):   - 0: &#x60;disabled&#x60;   - 1: &#x60;enabled&#x60; * &#x60;threshold_percentage&#x60;: The percentage of remaining quota at which the system should generate a &#x60;threshold reached&#x60; event * &#x60;action_on_exhaustion&#x60;: The behaviour of the system after the quota is exhausted:   - id: ID of the action on quota exhaustion (mandatory)     - 1: &#x60;Block&#x60;     - 2: &#x60;Throttle&#x60;   - peak_throughput: The maximum bandwidth in octets per second after the endpoint has been throttled. (mandatory)   Allowed values are 64000, 128000, 256000, 384000. (will not take any effect on &#x60;action_on_exhaustion&#x60; \&quot;Block\&quot;)  #### Events The system generates a \&quot;Quota Used Up\&quot; Event in case the data quota is completely depleted. The endpoint will be blocked from further consumption of data. The quota object will be included in the details of the event. Example events can be found in the Events of an Endpoint section.  #### Notes  The endpoint can instantly use data services after the API call to this entrypoint is successfully made. Any timestamp with a future date can be set, this allows to create data packages (e.g. for 1 hour, 24 hour, 7 days or any other timeframe) as required. 
      * @param endpointId The numeric ID of an Endpoint (required)
-     * @param endpointQuota1  (required)
+     * @param endpointQuota  (required)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table summary="Response Details" border="1">
@@ -488,15 +486,15 @@ public class EndpointApi {
         <tr><td> 422 </td><td> Unprocessable Entity. </td><td>  -  </td></tr>
      </table>
      */
-    public void endpointQuotaDataByEndpointIdPost(Integer endpointId, EndpointQuota1 endpointQuota1) throws ApiException {
-        endpointQuotaDataByEndpointIdPostWithHttpInfo(endpointId, endpointQuota1);
+    public void endpointQuotaDataByEndpointIdPost(Integer endpointId, EndpointQuota endpointQuota) throws ApiException {
+        endpointQuotaDataByEndpointIdPostWithHttpInfo(endpointId, endpointQuota);
     }
 
     /**
      * Set Data Quota
      * At any time, a new data quota can be set for an endpoint. At an initial state when no data quota is set, the endpoint will be denied from using data services. To top-up the data volume you need to retrieve the currently remaining volume, increase it by the top-up volume and set it as the new quota volume.  The following parameters can be configured: * &#x60;status&#x60; - The status of the quota (mandatory):   - 1: &#x60;ACTIVE&#x60;   - 2: &#x60;EXHAUSTED&#x60;   - 3: &#x60;EXPIRED&#x60; * &#x60;volume&#x60;: The volume left on this quota in MB * &#x60;expiry_date&#x60;: Timestamp when this quota will expire and the endpoint will definitely be denied from using further data services (mandatory) * &#x60;auto_refill&#x60;: Wether the quota shall be refilled on a daily basis (defaults to disabled):   - 0: &#x60;disabled&#x60;   - 1: &#x60;enabled&#x60; * &#x60;threshold_percentage&#x60;: The percentage of remaining quota at which the system should generate a &#x60;threshold reached&#x60; event * &#x60;action_on_exhaustion&#x60;: The behaviour of the system after the quota is exhausted:   - id: ID of the action on quota exhaustion (mandatory)     - 1: &#x60;Block&#x60;     - 2: &#x60;Throttle&#x60;   - peak_throughput: The maximum bandwidth in octets per second after the endpoint has been throttled. (mandatory)   Allowed values are 64000, 128000, 256000, 384000. (will not take any effect on &#x60;action_on_exhaustion&#x60; \&quot;Block\&quot;)  #### Events The system generates a \&quot;Quota Used Up\&quot; Event in case the data quota is completely depleted. The endpoint will be blocked from further consumption of data. The quota object will be included in the details of the event. Example events can be found in the Events of an Endpoint section.  #### Notes  The endpoint can instantly use data services after the API call to this entrypoint is successfully made. Any timestamp with a future date can be set, this allows to create data packages (e.g. for 1 hour, 24 hour, 7 days or any other timeframe) as required. 
      * @param endpointId The numeric ID of an Endpoint (required)
-     * @param endpointQuota1  (required)
+     * @param endpointQuota  (required)
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -506,8 +504,8 @@ public class EndpointApi {
         <tr><td> 422 </td><td> Unprocessable Entity. </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> endpointQuotaDataByEndpointIdPostWithHttpInfo(Integer endpointId, EndpointQuota1 endpointQuota1) throws ApiException {
-        okhttp3.Call localVarCall = endpointQuotaDataByEndpointIdPostValidateBeforeCall(endpointId, endpointQuota1, null);
+    public ApiResponse<Void> endpointQuotaDataByEndpointIdPostWithHttpInfo(Integer endpointId, EndpointQuota endpointQuota) throws ApiException {
+        okhttp3.Call localVarCall = endpointQuotaDataByEndpointIdPostValidateBeforeCall(endpointId, endpointQuota, null);
         return localVarApiClient.execute(localVarCall);
     }
 
@@ -515,7 +513,7 @@ public class EndpointApi {
      * Set Data Quota (asynchronously)
      * At any time, a new data quota can be set for an endpoint. At an initial state when no data quota is set, the endpoint will be denied from using data services. To top-up the data volume you need to retrieve the currently remaining volume, increase it by the top-up volume and set it as the new quota volume.  The following parameters can be configured: * &#x60;status&#x60; - The status of the quota (mandatory):   - 1: &#x60;ACTIVE&#x60;   - 2: &#x60;EXHAUSTED&#x60;   - 3: &#x60;EXPIRED&#x60; * &#x60;volume&#x60;: The volume left on this quota in MB * &#x60;expiry_date&#x60;: Timestamp when this quota will expire and the endpoint will definitely be denied from using further data services (mandatory) * &#x60;auto_refill&#x60;: Wether the quota shall be refilled on a daily basis (defaults to disabled):   - 0: &#x60;disabled&#x60;   - 1: &#x60;enabled&#x60; * &#x60;threshold_percentage&#x60;: The percentage of remaining quota at which the system should generate a &#x60;threshold reached&#x60; event * &#x60;action_on_exhaustion&#x60;: The behaviour of the system after the quota is exhausted:   - id: ID of the action on quota exhaustion (mandatory)     - 1: &#x60;Block&#x60;     - 2: &#x60;Throttle&#x60;   - peak_throughput: The maximum bandwidth in octets per second after the endpoint has been throttled. (mandatory)   Allowed values are 64000, 128000, 256000, 384000. (will not take any effect on &#x60;action_on_exhaustion&#x60; \&quot;Block\&quot;)  #### Events The system generates a \&quot;Quota Used Up\&quot; Event in case the data quota is completely depleted. The endpoint will be blocked from further consumption of data. The quota object will be included in the details of the event. Example events can be found in the Events of an Endpoint section.  #### Notes  The endpoint can instantly use data services after the API call to this entrypoint is successfully made. Any timestamp with a future date can be set, this allows to create data packages (e.g. for 1 hour, 24 hour, 7 days or any other timeframe) as required. 
      * @param endpointId The numeric ID of an Endpoint (required)
-     * @param endpointQuota1  (required)
+     * @param endpointQuota  (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -526,9 +524,9 @@ public class EndpointApi {
         <tr><td> 422 </td><td> Unprocessable Entity. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call endpointQuotaDataByEndpointIdPostAsync(Integer endpointId, EndpointQuota1 endpointQuota1, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call endpointQuotaDataByEndpointIdPostAsync(Integer endpointId, EndpointQuota endpointQuota, final ApiCallback<Void> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = endpointQuotaDataByEndpointIdPostValidateBeforeCall(endpointId, endpointQuota1, _callback);
+        okhttp3.Call localVarCall = endpointQuotaDataByEndpointIdPostValidateBeforeCall(endpointId, endpointQuota, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
         return localVarCall;
     }

@@ -2,7 +2,7 @@ lazy val root = (project in file(".")).
   settings(
     organization := "com.emnify.sdk",
     name := "emnify-api",
-    version := "1.0.0-SNAPSHOT",
+    version := "1.1.0-SNAPSHOT",
     scalaVersion := "2.11.4",
     scalacOptions ++= Seq("-feature"),
     javacOptions in compile ++= Seq("-Xlint:deprecation"),

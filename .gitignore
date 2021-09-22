@@ -87,6 +87,12 @@ nb-configuration.xml
 # Project specific settings
 /generated
 /gen
-/apidocs
-
+.openapi-generator
+api/api
+.openapi-generator-ignore
+git_push.sh
+AndroidManifest.xml
 /codegen
+
+/apidocs
+dev_readme.md

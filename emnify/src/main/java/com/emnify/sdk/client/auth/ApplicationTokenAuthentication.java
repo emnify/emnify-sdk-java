@@ -23,9 +23,12 @@ package com.emnify.sdk.client.auth;
 import com.emnify.sdk.ApiClient;
 import com.emnify.sdk.ApiException;
 import com.emnify.sdk.api.AuthenticationApi;
-import com.emnify.sdk.client.exception.ClientException;
+import com.emnify.sdk.client.exception.SdkApiException;
+import com.emnify.sdk.client.exception.SdkException;
 import com.emnify.sdk.model.AuthenticationResponse;
+import lombok.ToString;
 
+@ToString
 public class ApplicationTokenAuthentication extends AbstractAuthentication {
 
     private final String appToken;
@@ -35,7 +38,7 @@ public class ApplicationTokenAuthentication extends AbstractAuthentication {
     }
 
     @Override
-    public void authenticate(ApiClient apiClient) throws ClientException {
+    public void authenticate(ApiClient apiClient) throws SdkException {
         try {
             if (isExpired()) {
                 AuthenticationApi authClient = new AuthenticationApi(apiClient);
@@ -49,7 +52,7 @@ public class ApplicationTokenAuthentication extends AbstractAuthentication {
                 tokens = new AuthenticationTokens(response.getAuthToken(), appToken);
             }
         } catch (ApiException e) {
-            throw new ClientException("Unable to authenticate by application token: " + appToken);
+            throw SdkApiException.create("Unable to authenticate by application token: " + appToken, e);
         }
     }
 
@@ -57,13 +60,5 @@ public class ApplicationTokenAuthentication extends AbstractAuthentication {
     public boolean isRefreshTokenValid() {
         // always true
         return true;
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("ApplicationTokenAuthentication{");
-        sb.append("tokens=").append(tokens);
-        sb.append('}');
-        return sb.toString();
     }
 }

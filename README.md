@@ -1,6 +1,7 @@
 # emnify-sdk-java
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.emnify.sdk/emnify)](https://search.maven.org/search?q=g:com.emnify.sddk%20AND%20a:emnify)
+[![Maven Central](https://img.shields.io/maven-central/v/com.emnify.sdk/emnify)](https://search.maven.org/search?q=g:com.emnify.sdk%20AND%20a:emnify)
+[![codecov](https://codecov.io/gh/EMnify/emnify-sdk-java/branch/main/graph/badge.svg?token=PKQ5909911)](https://codecov.io/gh/EMnify/emnify-sdk-java)
 
 ## Documentation
 

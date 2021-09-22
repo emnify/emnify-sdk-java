@@ -21,10 +21,10 @@
 package com.emnify.sdk.client.auth;
 
 import com.emnify.sdk.ApiClient;
-import com.emnify.sdk.client.exception.ClientException;
+import com.emnify.sdk.client.exception.SdkException;
 
 public interface Authentication {
-    void authenticate(ApiClient apiClient) throws ClientException;
+    void authenticate(ApiClient apiClient) throws SdkException;
 
     boolean isExpired();
 

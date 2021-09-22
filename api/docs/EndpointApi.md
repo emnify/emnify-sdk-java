@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 <a name="createEndpoint"></a>
 # **createEndpoint**
-> createEndpoint(endpoint1)
+> createEndpoint(endpoint)
 
 Create Endpoint
 
@@ -39,9 +39,9 @@ public class Example {
     bearerAuth.setBearerToken("BEARER TOKEN");
 
     EndpointApi apiInstance = new EndpointApi(defaultClient);
-    Endpoint1 endpoint1 = new Endpoint1(); // Endpoint1 | 
+    Endpoint endpoint = new Endpoint(); // Endpoint | 
     try {
-      apiInstance.createEndpoint(endpoint1);
+      apiInstance.createEndpoint(endpoint);
     } catch (ApiException e) {
       System.err.println("Exception when calling EndpointApi#createEndpoint");
       System.err.println("Status code: " + e.getCode());
@@ -57,7 +57,7 @@ public class Example {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **endpoint1** | [**Endpoint1**](Endpoint1.md)|  |
+ **endpoint** | [**Endpoint**](Endpoint.md)|  |
 
 ### Return type
 
@@ -216,7 +216,7 @@ Name | Type | Description  | Notes
 
 <a name="endpointQuotaDataByEndpointIdPost"></a>
 # **endpointQuotaDataByEndpointIdPost**
-> endpointQuotaDataByEndpointIdPost(endpointId, endpointQuota1)
+> endpointQuotaDataByEndpointIdPost(endpointId, endpointQuota)
 
 Set Data Quota
 
@@ -243,9 +243,9 @@ public class Example {
 
     EndpointApi apiInstance = new EndpointApi(defaultClient);
     Integer endpointId = 56; // Integer | The numeric ID of an Endpoint
-    EndpointQuota1 endpointQuota1 = new EndpointQuota1(); // EndpointQuota1 | 
+    EndpointQuota endpointQuota = new EndpointQuota(); // EndpointQuota | 
     try {
-      apiInstance.endpointQuotaDataByEndpointIdPost(endpointId, endpointQuota1);
+      apiInstance.endpointQuotaDataByEndpointIdPost(endpointId, endpointQuota);
     } catch (ApiException e) {
       System.err.println("Exception when calling EndpointApi#endpointQuotaDataByEndpointIdPost");
       System.err.println("Status code: " + e.getCode());
@@ -262,7 +262,7 @@ public class Example {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **endpointId** | **Integer**| The numeric ID of an Endpoint |
- **endpointQuota1** | [**EndpointQuota1**](EndpointQuota1.md)|  |
+ **endpointQuota** | [**EndpointQuota**](EndpointQuota.md)|  |
 
 ### Return type
 
@@ -355,4 +355,3 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successfully returned a list of Endpoints. |  * Link - URLs for navigational links used to retrieve first, previous, next and last page in a dataset <br>  * X-Count-Per-Page - The requested &#x60;per_page&#x60; parameter <br>  * X-Current-Page - The current page number within the current data set <br>  * X-Total-Count - The total element count in the current data set <br>  * X-Total-Pages - The total page count in the current data set <br>  * X-Filter - If filtering is applied using &#x60;?q&#x3D;field:criteria&#x60; URL query parameters, the filter criteria is returned here <br>  * X-Sort - If sorting is applied using &#x60;?sort&#x3D;sort_criteria&#x60; URL query parameters, the sort criteria is returned here <br>  |
-

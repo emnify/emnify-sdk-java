@@ -25,7 +25,9 @@ import java.util.Date;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import lombok.ToString;
 
+@ToString
 public class AuthenticationTokens {
 
     private JWTData authToken;
@@ -88,14 +90,5 @@ public class AuthenticationTokens {
         }
 
         return jwtData;
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("AuthenticationTokens{");
-        sb.append("authToken='").append(authToken).append('\'');
-        sb.append(", refreshToken='").append(refreshToken).append('\'');
-        sb.append('}');
-        return sb.toString();
     }
 }

@@ -21,6 +21,7 @@
 package com.emnify.sdk.client;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,19 +32,22 @@ import com.emnify.sdk.ApiException;
 import com.emnify.sdk.api.EndpointApi;
 import com.emnify.sdk.client.auth.Authentication;
 import com.emnify.sdk.client.config.Configuration;
-import com.emnify.sdk.client.exception.ClientException;
+import com.emnify.sdk.client.exception.SdkApiException;
+import com.emnify.sdk.client.exception.SdkException;
+import com.emnify.sdk.client.model.Endpoint;
+import com.emnify.sdk.client.model.EndpointStatus;
+import com.emnify.sdk.client.model.IpAddressSpace;
 import com.emnify.sdk.client.model.QueryParams;
 import com.emnify.sdk.client.model.Quota;
 import com.emnify.sdk.client.model.QuotaActionOnExhaustion;
-import com.emnify.sdk.client.model.QuotaStatusType;
+import com.emnify.sdk.client.model.QuotaStatus;
+import com.emnify.sdk.client.model.ServiceProfile;
+import com.emnify.sdk.client.model.Sim;
+import com.emnify.sdk.client.model.TariffProfile;
 import com.emnify.sdk.client.retrier.AuthenticationRetrier;
 import com.emnify.sdk.client.util.TestUtils;
 import com.emnify.sdk.model.ActionOnExhaustion;
-import com.emnify.sdk.model.Endpoint;
 import com.emnify.sdk.model.EndpointQuota;
-import com.emnify.sdk.model.EndpointQuota1;
-import com.emnify.sdk.model.EndpointStatus;
-import com.emnify.sdk.model.QuotaStatus;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -52,7 +56,6 @@ import org.mockito.Mock;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import static com.emnify.sdk.client.ApiExceptionUtils.UNAUTHORIZED_CODE;
 import static com.emnify.sdk.client.model.Quota.QUOTA_DATE_TIME_PATTERN;
 import static com.emnify.sdk.client.model.QuotaActionOnExhaustion.QuotaPeakThroughput.FAST;
 import static com.emnify.sdk.client.model.QuotaActionOnExhaustion.QuotaPeakThroughput.SLOW;
@@ -100,21 +103,21 @@ public class EndpointClientTest {
     @Test
     public void test_ListEndpoints_Default() throws Exception {
         QueryParams params = QueryParams.builder().build();
-        List<Endpoint> expectedEndpoints = collectEndpoints();
+        List<com.emnify.sdk.model.Endpoint> expectedEndpoints = collectEndpoints();
 
         when(endpointApiMock.getEndpoints(null, null, null, null))
                 .thenReturn(expectedEndpoints);
 
         // execute
-        List<Endpoint> endpoints = new EndpointClient(apiClientMock, authenticationRetrier).listEndpoints(params);
+        List<Endpoint> endpoints = new EndpointClient(apiClientMock, authenticationRetrier).listEndpoints();
 
         // verify
         verify(endpointApiMock).getEndpoints(null, null, null, null);
 
         assertNotNull(endpoints);
-        assertEquals(expectedEndpoints, endpoints);
+        assertEquals(expectedEndpoints.size(), endpoints.size());
+        assertEndpointsEqual(expectedEndpoints, endpoints);
     }
-
 
     @Test
     public void test_ListEndpoints_Paginated() throws Exception {
@@ -130,7 +133,7 @@ public class EndpointClientTest {
                 .setPerPage(PAGE_SIZE)
                 .build();
 
-        List<Endpoint> expectedEndpoints = collectEndpoints();
+        List<com.emnify.sdk.model.Endpoint> expectedEndpoints = collectEndpoints();
 
         when(endpointApiMock.getEndpoints(FILTER, SORT, PAGE, PAGE_SIZE))
                 .thenReturn(expectedEndpoints);
@@ -142,7 +145,8 @@ public class EndpointClientTest {
         verify(endpointApiMock).getEndpoints(FILTER, SORT, PAGE, PAGE_SIZE);
 
         assertNotNull(endpoints);
-        assertEquals(expectedEndpoints, endpoints);
+        assertEquals(expectedEndpoints.size(), endpoints.size());
+        assertEndpointsEqual(expectedEndpoints, endpoints);
     }
 
     @Test
@@ -159,10 +163,10 @@ public class EndpointClientTest {
                 .setPerPage(PAGE_SIZE)
                 .build();
 
-        List<Endpoint> expectedEndpoints = collectEndpoints();
+        List<com.emnify.sdk.model.Endpoint> expectedEndpoints = collectEndpoints();
 
         when(endpointApiMock.getEndpoints(FILTER, SORT, PAGE, PAGE_SIZE))
-                .thenThrow(new ApiException(UNAUTHORIZED_CODE, Collections.emptyMap(), ""))
+                .thenThrow(new ApiException(StatusCode.UNAUTHORIZED.getCode(), Collections.emptyMap(), ""))
                 .thenReturn(expectedEndpoints);
 
         // execute
@@ -173,7 +177,8 @@ public class EndpointClientTest {
                 .getEndpoints(FILTER, SORT, PAGE, PAGE_SIZE);
 
         assertNotNull(endpoints);
-        assertEquals(expectedEndpoints, endpoints);
+        assertEquals(expectedEndpoints.size(), endpoints.size());
+        assertEndpointsEqual(expectedEndpoints, endpoints);
     }
 
     @Test
@@ -185,8 +190,8 @@ public class EndpointClientTest {
 
         // execute
         expectException(() -> new EndpointClient(apiClientMock, authenticationRetrier).listEndpoints(),
-                ClientException.class,
-                String.format("Error getting list of endpoints, cause: %s %s", expectedCauseMsg, ""));
+                SdkApiException.class,
+                String.format("Error getting list of endpoints Cause: %s %s", expectedCauseMsg, null));
 
         // verify
         verify(endpointApiMock).getEndpoints(any(), any(), any(), any());
@@ -203,7 +208,7 @@ public class EndpointClientTest {
         LocalDateTime lastChangeDate = LocalDateTime.now().minusDays(7).truncatedTo(ChronoUnit.SECONDS);
 
         EndpointQuota quota = new EndpointQuota()
-                .status(new QuotaStatus().id(QuotaStatus.IdEnum.NUMBER_1))
+                .status(new com.emnify.sdk.model.QuotaStatus().id(com.emnify.sdk.model.QuotaStatus.IdEnum.NUMBER_1))
                 .volume(VOLUME)
                 .autoRefill(1)
                 .actionOnExhaustion(new ActionOnExhaustion().id(NUMBER_2).peakThroughput(60000))
@@ -225,7 +230,7 @@ public class EndpointClientTest {
 
         // assert
         assertNotNull(result);
-        assertEquals(QuotaStatusType.ACTIVE, result.getStatus());
+        assertEquals(QuotaStatus.ACTIVE, result.getStatus());
         assertEquals(VOLUME, result.getVolume());
         assertTrue(result.isAutoRefill());
         assertEquals(throttle(SLOW), result.getActionOnExhaustion());
@@ -246,7 +251,7 @@ public class EndpointClientTest {
         LocalDateTime lastChangeDate = LocalDateTime.now().minusDays(7).truncatedTo(ChronoUnit.SECONDS);
 
         EndpointQuota quota = new EndpointQuota()
-                .status(new QuotaStatus().id(QuotaStatus.IdEnum.NUMBER_1))
+                .status(new com.emnify.sdk.model.QuotaStatus().id(com.emnify.sdk.model.QuotaStatus.IdEnum.NUMBER_1))
                 .volume(VOLUME)
                 .autoRefill(1)
                 .actionOnExhaustion(new ActionOnExhaustion().id(NUMBER_2).peakThroughput(60000))
@@ -258,7 +263,7 @@ public class EndpointClientTest {
                 .thresholdVolume(THRESHOLD);
 
         when(endpointApiMock.endpointQuotaDataByEndpointIdGet(ENDPOINT_ID))
-                .thenThrow(new ApiException(UNAUTHORIZED_CODE, Collections.emptyMap(), ""))
+                .thenThrow(new ApiException(StatusCode.UNAUTHORIZED.getCode(), Collections.emptyMap(), ""))
                 .thenReturn(quota);
 
         // execute
@@ -269,7 +274,7 @@ public class EndpointClientTest {
 
         // assert
         assertNotNull(result);
-        assertEquals(QuotaStatusType.ACTIVE, result.getStatus());
+        assertEquals(QuotaStatus.ACTIVE, result.getStatus());
         assertEquals(VOLUME, result.getVolume());
         assertTrue(result.isAutoRefill());
         assertEquals(throttle(SLOW), result.getActionOnExhaustion());
@@ -283,12 +288,12 @@ public class EndpointClientTest {
     @Test
     public void test_GetQuota_Exception() throws ApiException {
         when(endpointApiMock.endpointQuotaDataByEndpointIdGet(ENDPOINT_ID))
-                .thenThrow(new ApiException(404, "", Collections.emptyMap(), "Quota not found"));
+                .thenThrow(new ApiException(StatusCode.NOT_FOUND.getCode(), "", Collections.emptyMap(), "Quota not found"));
 
         // execute
         expectException(() -> new EndpointClient(apiClientMock, authenticationRetrier).getQuota(ENDPOINT_ID),
-                ClientException.class,
-                String.format("Error getting quota by endpoint ID: %d, cause: %s %s",
+                SdkApiException.class,
+                String.format("Error getting quota by endpoint ID: %d Cause: %s %s",
                         ENDPOINT_ID, "", "Quota not found"));
 
         // verify
@@ -311,7 +316,7 @@ public class EndpointClientTest {
         quota.setThresholdVolume(THRESHOLD);
         quota.setThresholdPercentage(THRESHOLD);
 
-        ArgumentCaptor<EndpointQuota1> quotaCapture = ArgumentCaptor.forClass(EndpointQuota1.class);
+        ArgumentCaptor<EndpointQuota> quotaCapture = ArgumentCaptor.forClass(EndpointQuota.class);
 
         doNothing().when(endpointApiMock).endpointQuotaDataByEndpointIdPost(eq(ENDPOINT_ID), quotaCapture.capture());
 
@@ -322,9 +327,9 @@ public class EndpointClientTest {
         verify(endpointApiMock).endpointQuotaDataByEndpointIdPost(eq(ENDPOINT_ID), quotaCapture.capture());
 
         // assert
-        EndpointQuota1 result = quotaCapture.getValue();
+        EndpointQuota result = quotaCapture.getValue();
         assertNotNull(result);
-        assertEquals(new QuotaStatus().id(QuotaStatus.IdEnum.NUMBER_1), result.getStatus());
+        assertEquals(new com.emnify.sdk.model.QuotaStatus().id(com.emnify.sdk.model.QuotaStatus.IdEnum.NUMBER_1), result.getStatus());
         assertEquals(VOLUME, result.getVolume());
         assertEquals(new Integer(1), result.getAutoRefill());
         assertEquals(new ActionOnExhaustion().id(NUMBER_2).peakThroughput(PEEK_THROUGHPUT.getMbPerSec()),
@@ -352,9 +357,9 @@ public class EndpointClientTest {
         quota.setThresholdVolume(THRESHOLD);
         quota.setThresholdPercentage(THRESHOLD);
 
-        ArgumentCaptor<EndpointQuota1> quotaCapture = ArgumentCaptor.forClass(EndpointQuota1.class);
+        ArgumentCaptor<EndpointQuota> quotaCapture = ArgumentCaptor.forClass(EndpointQuota.class);
 
-        doThrow(new ApiException(UNAUTHORIZED_CODE, Collections.emptyMap(), "")).doNothing()
+        doThrow(new ApiException(StatusCode.UNAUTHORIZED.getCode(), Collections.emptyMap(), "")).doNothing()
                 .when(endpointApiMock).endpointQuotaDataByEndpointIdPost(eq(ENDPOINT_ID), quotaCapture.capture());
 
         // execute
@@ -364,9 +369,9 @@ public class EndpointClientTest {
         verify(endpointApiMock, times(2)).endpointQuotaDataByEndpointIdPost(eq(ENDPOINT_ID), quotaCapture.capture());
 
         // assert
-        EndpointQuota1 result = quotaCapture.getValue();
+        EndpointQuota result = quotaCapture.getValue();
         assertNotNull(result);
-        assertEquals(new QuotaStatus().id(QuotaStatus.IdEnum.NUMBER_1), result.getStatus());
+        assertEquals(new com.emnify.sdk.model.QuotaStatus().id(com.emnify.sdk.model.QuotaStatus.IdEnum.NUMBER_1), result.getStatus());
         assertEquals(VOLUME, result.getVolume());
         assertEquals(new Integer(1), result.getAutoRefill());
         assertEquals(new ActionOnExhaustion().id(NUMBER_2).peakThroughput(PEEK_THROUGHPUT.getMbPerSec()),
@@ -380,13 +385,13 @@ public class EndpointClientTest {
 
     @Test
     public void test_SaveQuota_Exception() throws ApiException {
-        doThrow(new ApiException(422, "", Collections.emptyMap(), "Unprocessable Entity"))
+        doThrow(new ApiException(StatusCode.UNSUPPORTED_ENTITY.getCode(), "", Collections  .emptyMap(), "Unprocessable Entity"))
                 .when(endpointApiMock).endpointQuotaDataByEndpointIdPost(eq(ENDPOINT_ID), any());
 
         // execute
         expectException(() -> new EndpointClient(apiClientMock, authenticationRetrier).saveQuota(ENDPOINT_ID, new Quota()),
-                ClientException.class,
-                String.format("Error saving quota for endpoint ID: %d, cause: %s %s",
+                SdkApiException.class,
+                String.format("Error saving quota for endpoint ID: %d Cause: %s %s",
                         ENDPOINT_ID, "", "Unprocessable Entity"));
 
         // verify
@@ -398,22 +403,58 @@ public class EndpointClientTest {
 
         // execute
         expectException(() -> new EndpointClient(apiClientMock, authenticationRetrier).saveQuota(ENDPOINT_ID, null),
-                ClientException.class, "Endpoint ID and Quota data are required!");
+                SdkException.class, "Endpoint ID and Quota data are required!");
 
         // verify
         verify(endpointApiMock, never()).endpointQuotaDataByEndpointIdPost(ENDPOINT_ID, null);
     }
 
-    private List<Endpoint> collectEndpoints() {
-        List<Endpoint> endpoints = new ArrayList<>(5);
+    private List<com.emnify.sdk.model.Endpoint> collectEndpoints() {
+        List<com.emnify.sdk.model.Endpoint> endpoints = new ArrayList<>(5);
         for (int i = 0; i < 5; i++) {
-            Endpoint endpoint = new Endpoint();
+            com.emnify.sdk.model.Endpoint endpoint = new com.emnify.sdk.model.Endpoint();
             endpoint.setId(i);
             endpoint.setName("Endpoint " + i);
-            endpoint.setStatus(new EndpointStatus().id(1));
+            endpoint.setStatus(new com.emnify.sdk.model.EndpointStatus().id(1));
+            endpoint.setCreated(OffsetDateTime.now().minusDays(3));
+            endpoint.setLastUpdated(OffsetDateTime.now());
 
             endpoints.add(endpoint);
         }
         return endpoints;
+    }
+
+    private void assertEndpointsEqual(List<com.emnify.sdk.model.Endpoint> expectedEndpoints, List<Endpoint> endpoints) {
+        for (int i = 0; i < expectedEndpoints.size(); i++) {
+            com.emnify.sdk.model.Endpoint expected = expectedEndpoints.get(i);
+            Endpoint actual = endpoints.get(i);
+            assertEndpointEquals(expected, actual);
+        }
+    }
+
+    private void assertEndpointEquals(com.emnify.sdk.model.Endpoint expected, Endpoint actual) {
+        assertEquals(expected.getId(), actual.getId());
+        assertEquals(expected.getName(), actual.getName());
+        assertEquals(expected.getTags(), actual.getTags());
+        assertEquals(EndpointStatus.toClientModel(expected.getStatus()), actual.getStatus());
+        assertEquals(ServiceProfile.toClientModel(expected.getServiceProfile()), actual.getServiceProfile());
+        assertEquals(TariffProfile.toClientModel(expected.getTariffProfile()), actual.getTariffProfile());
+        assertEquals(expected.getIpAddress(), actual.getIpAddress());
+        assertEquals(IpAddressSpace.toClientModel(expected.getIpAddressSpace()), actual.getIpAddressSpace());
+        assertEquals(Sim.toClientModel(expected.getSim()), actual.getSim());
+        assertEquals(expected.getImei(), actual.getImei());
+        assertEquals(expected.getImeiLock(), actual.getImeiLock());
+        if (expected.getCreated() != null) {
+            assertNotNull(actual.getCreated());
+            assertEquals(expected.getCreated().toLocalDate(), actual.getCreated().toLocalDate());
+        } else {
+            assertNull(actual.getCreated());
+        }
+        if (expected.getLastUpdated() != null) {
+            assertNotNull(actual.getLastUpdated());
+            assertEquals(expected.getLastUpdated().toLocalDate(), actual.getLastUpdated().toLocalDate());
+        } else {
+            assertNull(actual.getLastUpdated());
+        }
     }
 }

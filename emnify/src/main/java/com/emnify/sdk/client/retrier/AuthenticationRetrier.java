@@ -22,10 +22,14 @@ package com.emnify.sdk.client.retrier;
 
 import com.emnify.sdk.ApiClient;
 import com.emnify.sdk.ApiException;
-import com.emnify.sdk.client.exception.ClientException;
+import com.emnify.sdk.client.StatusCode;
+import com.emnify.sdk.client.exception.SdkException;
 import com.emnify.sdk.client.auth.Authentication;
-import static com.emnify.sdk.client.ApiExceptionUtils.isUnauthorizedException;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
+@ToString
+@EqualsAndHashCode
 public class AuthenticationRetrier {
 
     public static final int DEFAULT_MAX_AUTH_ATTEMPTS = 3;
@@ -46,7 +50,7 @@ public class AuthenticationRetrier {
         this.apiClient = apiClient;
     }
 
-    public <E> RetryResult<E> perform(Retriable<E> retriable) throws RetryLimitExceeded, ClientException, ApiException {
+    public <E> RetryResult<E> perform(Retriable<E> retriable) throws RetryLimitExceeded, SdkException, ApiException {
         int count = 0;
         while (!exceedAttempts(count)) {
             count++;
@@ -64,7 +68,7 @@ public class AuthenticationRetrier {
         throw new RetryLimitExceeded(maxAttempts);
     }
 
-    private void reauthenticate() throws ClientException {
+    private void reauthenticate() throws SdkException {
         authentication.authenticate(apiClient);
     }
 
@@ -72,13 +76,7 @@ public class AuthenticationRetrier {
         return attempt >= maxAttempts;
     }
 
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("AuthenticationRetrier{");
-        sb.append("maxAttempts=").append(maxAttempts);
-        sb.append(", authentication=").append(authentication);
-        sb.append(", apiClient=").append(apiClient);
-        sb.append('}');
-        return sb.toString();
+    private boolean isUnauthorizedException(ApiException exception) {
+        return exception != null && StatusCode.UNAUTHORIZED == StatusCode.getByCode(exception.getCode());
     }
 }

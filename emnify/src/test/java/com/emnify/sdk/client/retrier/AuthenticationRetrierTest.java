@@ -25,13 +25,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import com.emnify.sdk.ApiClient;
 import com.emnify.sdk.ApiException;
+import com.emnify.sdk.client.StatusCode;
 import com.emnify.sdk.client.auth.Authentication;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.modules.junit4.PowerMockRunner;
-import static com.emnify.sdk.client.ApiExceptionUtils.UNAUTHORIZED_CODE;
 import static com.emnify.sdk.client.config.Configuration.createAuthenticationRetrier;
 import static com.emnify.sdk.client.util.TestUtils.expectException;
 import static org.junit.Assert.assertEquals;
@@ -73,7 +73,7 @@ public class AuthenticationRetrierTest {
         AuthenticationRetrier retrier = createAuthenticationRetrier(MAX_ATTEMPTS, authentication, apiClient);
         Retriable<String> retriable = () -> {
             if (atomicInteger.getAndAdd(1) == 1) {
-                throw new ApiException(UNAUTHORIZED_CODE, Collections.emptyMap(), "");
+                throw new ApiException(StatusCode.UNAUTHORIZED.getCode(), Collections.emptyMap(), "");
             }
             return expectedValue;
         };
@@ -89,7 +89,7 @@ public class AuthenticationRetrierTest {
     public void test_Perform_Unauthorized_ExceedDefaultLimit() throws Exception {
         AuthenticationRetrier retrier = createAuthenticationRetrier(authentication, apiClient);
         Retriable<String> retriable = () -> {
-            throw new ApiException(UNAUTHORIZED_CODE, Collections.emptyMap(), "");
+            throw new ApiException(StatusCode.UNAUTHORIZED.getCode(), Collections.emptyMap(), "");
         };
 
         expectException(() -> retrier.perform(retriable), RetryLimitExceeded.class);
@@ -101,7 +101,7 @@ public class AuthenticationRetrierTest {
     public void test_Perform_Unauthorized_ExceedCustomLimit() throws Exception {
         AuthenticationRetrier retrier = createAuthenticationRetrier(MAX_ATTEMPTS, authentication, apiClient);
         Retriable<String> retriable = () -> {
-            throw new ApiException(UNAUTHORIZED_CODE, Collections.emptyMap(), "");
+            throw new ApiException(StatusCode.UNAUTHORIZED.getCode(), Collections.emptyMap(), "");
         };
 
         expectException(() -> retrier.perform(retriable), RetryLimitExceeded.class);

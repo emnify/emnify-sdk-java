@@ -21,18 +21,21 @@
 package com.emnify.sdk.client;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.emnify.sdk.ApiClient;
 import com.emnify.sdk.ApiException;
 import com.emnify.sdk.api.EndpointApi;
-import com.emnify.sdk.client.exception.ClientException;
+import com.emnify.sdk.client.exception.SdkApiException;
+import com.emnify.sdk.client.exception.SdkException;
+import com.emnify.sdk.client.exception.SdkRetryException;
+import com.emnify.sdk.client.model.Endpoint;
 import com.emnify.sdk.client.model.QueryParams;
 import com.emnify.sdk.client.model.Quota;
 import com.emnify.sdk.client.retrier.AuthenticationRetrier;
+import com.emnify.sdk.client.retrier.Retriable;
 import com.emnify.sdk.client.retrier.RetryLimitExceeded;
 import com.emnify.sdk.client.retrier.RetryResult;
-import com.emnify.sdk.client.retrier.Retriable;
-import com.emnify.sdk.model.Endpoint;
 
 public class EndpointClient {
 
@@ -48,10 +51,10 @@ public class EndpointClient {
      * Return the list of endpoints without filters, sorting and pagination.
      *
      * @return list of endpoints
-     * @throws ClientException
+     * @throws SdkException
      */
-    public List<Endpoint> listEndpoints() throws ClientException {
-        return listEndpoints(QueryParams.builder().build());
+    public List<Endpoint> listEndpoints() throws SdkException {
+        return listEndpoints(null);
     }
 
     /**
@@ -59,24 +62,27 @@ public class EndpointClient {
      *
      * @param params parameters of filtering, sorting and pagination
      * @return list of endpoints
-     * @throws ClientException
+     * @throws SdkException
      */
-    public List<Endpoint> listEndpoints(final QueryParams params) throws ClientException {
+    public List<Endpoint> listEndpoints(final QueryParams params) throws SdkException {
         Retriable<List<Endpoint>> retriable = () -> {
+            List<com.emnify.sdk.model.Endpoint> endpoints;
             if (params == null) {
-                return endpointApi.getEndpoints(null, null, null, null);
+                endpoints = endpointApi.getEndpoints(null, null, null, null);
             } else {
-                return endpointApi.getEndpoints(params.getFilter(), params.getSort(), params.getPage(), params.getPerPage());
+                endpoints = endpointApi.getEndpoints(params.getFilter(), params.getSort(), params.getPage(), params.getPerPage());
             }
+
+            return endpoints.stream().map(Endpoint::toClientModel).collect(Collectors.toList());
         };
 
         try {
             RetryResult<List<Endpoint>> result = authRetrier.perform(retriable);
             return result.getResult();
         } catch (ApiException e) {
-            throw new ClientException("Error getting list of endpoints", e);
+            throw SdkApiException.create("Error getting list of endpoints", e);
         } catch (RetryLimitExceeded e) {
-            throw new ClientException("Error getting list of endpoints", e);
+            throw SdkRetryException.create("Error getting list of endpoints", e);
         }
     }
 
@@ -85,18 +91,18 @@ public class EndpointClient {
      *
      * @param endpointId
      * @return quota if such a data exists otherwise throw exception
-     * @throws ClientException
+     * @throws SdkException
      */
-    public Quota getQuota(int endpointId) throws ClientException {
+    public Quota getQuota(int endpointId) throws SdkException {
         Retriable<Quota> retriable = () -> Quota.toClientModel(endpointApi.endpointQuotaDataByEndpointIdGet(endpointId));
 
         try {
             RetryResult<Quota> result = authRetrier.perform(retriable);
             return result.getResult();
         } catch (ApiException e) {
-            throw new ClientException("Error getting quota by endpoint ID: " + endpointId, e);
+            throw SdkApiException.create("Error getting quota by endpoint ID: " + endpointId, e);
         } catch (RetryLimitExceeded e) {
-            throw new ClientException("Error getting quota by endpoint ID: " + endpointId, e);
+            throw SdkRetryException.create("Error getting quota by endpoint ID: " + endpointId, e);
         }
     }
 
@@ -106,11 +112,11 @@ public class EndpointClient {
      *
      * @param endpointId endpoint identifier
      * @param quota      endpoint quota data
-     * @throws ClientException
+     * @throws SdkException
      */
-    public void saveQuota(int endpointId, Quota quota) throws ClientException {
+    public void saveQuota(int endpointId, Quota quota) throws SdkException {
         if (endpointId <= 0 || quota == null) {
-            throw new ClientException("Endpoint ID and Quota data are required!");
+            throw new SdkException("Endpoint ID and Quota data are required!");
         }
 
         Retriable<Void> retriable = () -> {
@@ -121,9 +127,9 @@ public class EndpointClient {
         try {
             authRetrier.perform(retriable);
         } catch (ApiException e) {
-            throw new ClientException("Error saving quota for endpoint ID: " + endpointId, e);
+            throw SdkApiException.create("Error saving quota for endpoint ID: " + endpointId, e);
         } catch (RetryLimitExceeded e) {
-            throw new ClientException("Error saving quota for endpoint ID: " + endpointId, e);
+            throw SdkRetryException.create("Error saving quota for endpoint ID: " + endpointId, e);
         }
     }
 }

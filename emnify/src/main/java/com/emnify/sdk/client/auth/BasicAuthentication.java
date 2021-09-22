@@ -25,9 +25,12 @@ import java.security.MessageDigest;
 import com.emnify.sdk.ApiClient;
 import com.emnify.sdk.ApiException;
 import com.emnify.sdk.api.AuthenticationApi;
-import com.emnify.sdk.client.exception.ClientException;
+import com.emnify.sdk.client.exception.SdkApiException;
+import com.emnify.sdk.client.exception.SdkException;
 import com.emnify.sdk.model.AuthenticationResponse;
+import lombok.ToString;
 
+@ToString
 public class BasicAuthentication extends AbstractAuthentication {
 
     private final String username;
@@ -39,7 +42,7 @@ public class BasicAuthentication extends AbstractAuthentication {
     }
 
     @Override
-    public void authenticate(ApiClient apiClient) throws ClientException {
+    public void authenticate(ApiClient apiClient) throws SdkException {
         try {
             if (isExpired()) {
                 AuthenticationApi authClient = new AuthenticationApi(apiClient);
@@ -59,7 +62,7 @@ public class BasicAuthentication extends AbstractAuthentication {
                 tokens = new AuthenticationTokens(response.getAuthToken(), response.getRefreshToken());
             }
         } catch (ApiException e) {
-            throw new ClientException("Unable to authenticate user: " + username);
+            throw SdkApiException.create("Unable to authenticate user: " + username, e);
         }
     }
 
@@ -79,14 +82,14 @@ public class BasicAuthentication extends AbstractAuthentication {
         return false;
     }
 
-    private static byte[] hash(String password) throws ApiException {
+    private static byte[] hash(String password) throws SdkException {
         try {
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-1");
             messageDigest.update(password.getBytes());
 
             return messageDigest.digest();
         } catch (Exception e) {
-            throw new ApiException("Unable to compute hash while authorizing: " + e.getMessage());
+            throw new SdkException("Unable to compute hash while authorizing: " + e.getMessage());
         }
     }
 
@@ -95,15 +98,6 @@ public class BasicAuthentication extends AbstractAuthentication {
         for (byte b : a) {
             sb.append(String.format("%02x", b));
         }
-        return sb.toString();
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("BasicAuthentication{");
-        sb.append("tokens=").append(tokens);
-        sb.append(", username='").append(username).append('\'');
-        sb.append('}');
         return sb.toString();
     }
 }

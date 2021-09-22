@@ -30,7 +30,7 @@ public class Example {
     defaultClient.setBasePath("https://cdn.emnify.net");
 
     AuthenticationApi apiInstance = new AuthenticationApi(defaultClient);
-    Authentication authentication = new Authentication(); // Authentication | 
+    Authentication authentication = new Authentication(); // Authentication | Authentication using Application Tokens or user/password combination
     try {
       AuthenticationResponse result = apiInstance.authenticate(authentication);
       System.out.println(result);
@@ -49,7 +49,7 @@ public class Example {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **authentication** | [**Authentication**](Authentication.md)|  |
+ **authentication** | [**Authentication**](Authentication.md)| Authentication using Application Tokens or user/password combination |
 
 ### Return type
 
@@ -70,4 +70,3 @@ No authorization required
 **200** | Successful Authentication Request |  -  |
 **401** | Unauthorized |  -  |
 **404** | Unexpected error in API call. See HTTP response body for details. |  -  |
-

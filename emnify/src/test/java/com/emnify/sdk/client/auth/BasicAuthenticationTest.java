@@ -25,8 +25,9 @@ import java.util.Date;
 import com.emnify.sdk.ApiClient;
 import com.emnify.sdk.ApiException;
 import com.emnify.sdk.api.AuthenticationApi;
-import com.emnify.sdk.client.exception.ClientException;
 import com.emnify.sdk.client.config.Configuration;
+import com.emnify.sdk.client.exception.SdkApiException;
+import com.emnify.sdk.client.exception.SdkException;
 import com.emnify.sdk.client.util.TestUtils;
 import com.emnify.sdk.model.Authentication;
 import com.emnify.sdk.model.AuthenticationResponse;
@@ -209,7 +210,7 @@ public class BasicAuthenticationTest {
         // execute
         expectException(
                 () -> new BasicAuthentication(USERNAME, null).authenticate(apiClientMock),
-                ClientException.class, "Unable to authenticate user: " + USERNAME);
+                SdkException.class, "Unable to compute hash while authorizing: null");
 
         // verify
         verify(requestMock).setUsername(USERNAME);
@@ -231,7 +232,7 @@ public class BasicAuthenticationTest {
         // execute
         expectException(
                 () -> new BasicAuthentication(USERNAME, PASSWORD).authenticate(apiClientMock),
-                ClientException.class, "Unable to authenticate user: " + USERNAME);
+                SdkApiException.class, "Unable to authenticate user: " + USERNAME + " Cause: null null");
 
         // verify
         verify(requestMock).setUsername(USERNAME);

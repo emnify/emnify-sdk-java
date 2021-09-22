@@ -25,11 +25,13 @@ import java.util.Objects;
 import com.emnify.sdk.ApiClient;
 import com.emnify.sdk.client.auth.Authentication;
 import com.emnify.sdk.client.config.Configuration;
-import com.emnify.sdk.client.exception.ClientException;
+import com.emnify.sdk.client.exception.SdkException;
 import com.emnify.sdk.client.retrier.AuthenticationRetrier;
+import lombok.ToString;
 import org.apache.commons.lang3.SystemUtils;
 import static com.emnify.sdk.client.config.Configuration.createAuthentication;
 
+@ToString
 public class EMnify {
 
     private static final String APPLICATION_TOKEN_ENV = "EMNIFY_APPLICATION_TOKEN";
@@ -53,9 +55,9 @@ public class EMnify {
      *     <li>EMNIFY_USERNAME and EMNIFY_USERNAME - are used for <a href="https://cdn.emnify.net/api/doc/basic-auth.html" target="_blank">User Authentication</a></li>
      * </ul>
      * @return instance of authorized EMnify Client
-     * @throws ClientException if authentication failed
+     * @throws SdkException if authentication failed
      */
-    public static EMnify authenticate() throws ClientException {
+    public static EMnify authenticate() throws SdkException {
         Authentication authentication;
         authentication = createAuthentication(SystemUtils.getEnvironmentVariable(APPLICATION_TOKEN_ENV, ""));
 
@@ -75,9 +77,9 @@ public class EMnify {
      * @param password password
      *
      * @return instance of authorized EMnify Client
-     * @throws ClientException if authentication failed
+     * @throws SdkException if authentication failed
      */
-    public static EMnify authenticate(String username, String password) throws ClientException {
+    public static EMnify authenticate(String username, String password) throws SdkException {
         return authenticate(Configuration.createAuthentication(username, password));
     }
 
@@ -87,15 +89,15 @@ public class EMnify {
      * @param appToken application token value
      *
      * @return instance of authorized EMnify Client
-     * @throws ClientException if authentication failed
+     * @throws SdkException if authentication failed
      */
-    public static EMnify authenticate(String appToken) throws ClientException {
+    public static EMnify authenticate(String appToken) throws SdkException {
         return authenticate(createAuthentication(appToken));
     }
 
-    private static EMnify authenticate(Authentication authentication) throws ClientException {
+    private static EMnify authenticate(Authentication authentication) throws SdkException {
         if (authentication == null) {
-            throw new ClientException("Authentication configuration is wrong.");
+            throw new SdkException("Authentication configuration is wrong.");
         }
         ApiClient apiClient = Configuration.getApiClient();
         authentication.authenticate(apiClient);
@@ -113,11 +115,11 @@ public class EMnify {
     /**
      * Refresh auth token if it is expired and refresh token is not expired
      *
-     * @throws ClientException if attempt of authentication failed
+     * @throws SdkException if attempt of authentication failed
      */
-    public void refreshAuthIfNecessary() throws ClientException {
+    public void refreshAuthIfNecessary() throws SdkException {
         if (authentication == null) {
-            throw new ClientException("Refresh authentication is not possible");
+            throw new SdkException("Refresh authentication is not possible");
         }
 
         authentication.authenticate(apiClient);
@@ -125,20 +127,5 @@ public class EMnify {
 
     public EndpointClient buildEndpointClient() {
         return new EndpointClient(apiClient, authenticationRetrier);
-    }
-
-    /**
-     * Returns a string representation of the object
-     * This is useful for testing and debugging. Sensitive data will be redacted from this string using a placeholder value.
-     * @return
-     */
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("EMnify{");
-        sb.append("authentication=").append(authentication);
-        sb.append(", apiClient=").append(apiClient);
-        sb.append(", authenticationRetrier=").append(authenticationRetrier);
-        sb.append('}');
-        return sb.toString();
     }
 }

@@ -20,23 +20,25 @@
 
 package com.emnify.sdk.client.model;
 
-import com.emnify.sdk.model.QuotaStatus;
+import lombok.Getter;
 
-public enum QuotaStatusType {
-    ACTIVE, EXHAUSTED, EXPIRED;
+@Getter
+public enum EndpointStatus {
+    ENABLED(0), DISABLED(1);
 
-    public static QuotaStatusType toClientModel(QuotaStatus status) {
-        if (status == null) {
-            return null;
-        }
+    private final int activeStatus;
 
-        QuotaStatus.IdEnum id = status.getId();
-        if (id == QuotaStatus.IdEnum.NUMBER_1) {
-            return ACTIVE;
-        } else if (id == QuotaStatus.IdEnum.NUMBER_2) {
-            return EXHAUSTED;
-        } else if (id == QuotaStatus.IdEnum.NUMBER_3) {
-            return EXPIRED;
+    EndpointStatus(int activeStatus) {
+        this.activeStatus = activeStatus;
+    }
+
+    public static EndpointStatus toClientModel(com.emnify.sdk.model.EndpointStatus source) {
+        if (source != null) {
+            for (EndpointStatus status : EndpointStatus.values()) {
+                if (status.activeStatus == source.getId()) {
+                    return status;
+                }
+            }
         }
 
         return null;

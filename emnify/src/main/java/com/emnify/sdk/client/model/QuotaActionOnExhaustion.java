@@ -20,10 +20,14 @@
 
 package com.emnify.sdk.client.model;
 
-import java.util.Objects;
-
 import com.emnify.sdk.model.ActionOnExhaustion;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
+@EqualsAndHashCode
+@ToString
+@Builder
 public class QuotaActionOnExhaustion {
 
     private final ExhaustionActionType exhaustionActionType;
@@ -113,32 +117,5 @@ public class QuotaActionOnExhaustion {
 
     public QuotaPeakThroughput getPeakThroughput() {
         return peakThroughput;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        QuotaActionOnExhaustion actionOnExhaustion = (QuotaActionOnExhaustion) o;
-        return Objects.equals(this.exhaustionActionType, actionOnExhaustion.exhaustionActionType) &&
-                Objects.equals(this.peakThroughput, actionOnExhaustion.peakThroughput);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(exhaustionActionType, peakThroughput);
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("QuotaActionOnExhaustion{");
-        sb.append("exhaustionActionType=").append(exhaustionActionType);
-        sb.append(", peakThroughput=").append(peakThroughput);
-        sb.append('}');
-        return sb.toString();
     }
 }
