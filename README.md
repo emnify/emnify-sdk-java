@@ -1,7 +1,9 @@
 # emnify-sdk-java
 
+![Build Status](https://github.com/EMnify/emnify-sdk-java/actions/workflows/build.yaml/badge.svg)
 [![Maven Central](https://img.shields.io/maven-central/v/com.emnify.sdk/emnify)](https://search.maven.org/search?q=g:com.emnify.sdk%20AND%20a:emnify)
 [![codecov](https://codecov.io/gh/EMnify/emnify-sdk-java/branch/main/graph/badge.svg?token=PKQ5909911)](https://codecov.io/gh/EMnify/emnify-sdk-java)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=EMnify_emnify-sdk-java&metric=bugs)](https://sonarcloud.io/dashboard?id=EMnify_emnify-sdk-java)
 
 ## Documentation
 
