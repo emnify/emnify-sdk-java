@@ -1,34 +1,47 @@
-# Quota Management example
+# Managing the device's quota data with the emnify Java SDK
 
-This example shows how to manage endpoint's quota data.
+This example shows how to manage the device's quota data.
 
-1. Script authorizes the client using configured credentials.
-2. The list of endpoints is fetched then a first endpoint is taken to work with.
-3. Then check the current state of quota
-4. Script configures a quota with the following data:
-    - set new volume of 10MB
-    - the quota expires in 7 days
-    - a threshold is set to 15%. If the remaining volume goes below this percentage of the applied quota, the system
-      will generate a "threshold reached" event.
-    - the action of exhaustion is configured to Throttle with a peak throughput of 64000 octets per second
-5. Script fetches the quota data to check if configuration has been saved successfully
+Here's a high-level overview of what happens in the script:
+
+1. Authorizes the client using configured credentials
+1. Fetches a list of devices and selects the first device
+1. Checks the current state of the quota
+1. Configures a new quota with the following data:
+    - 10 MB of volume
+    - Expires in 7 days
+    - 15% threshold 
+      - If the remaining volume goes below this percentage of the applied quota, the system will generate a [Quota threshold reached event](https://docs.emnify.com/services/events/event-types#quota-threshold-reached)
+    - Exhaustion action is "Throttle" with a peak throughput of 64000 octets per second
+1. Fetches the quota data to check if the configuration has been saved successfully
 
 ## Running the example
 
-Firstly, follow the [SDK installation]( ../../README.md#Installation ) instruction.
+### Install the SDK
 
-Then you need to configure you authorization credentials. There are two options:
+<!-- TODO: Replace relative path with link to docs.emnify.com when live -->
+First, follow the [SDK installation instructions]( ../../README.md#Installation).
 
-#### Application Token
-If you want to authenticate via application token, you need to add system environment `EMNIFY_APPLICATION_TOKEN`. <a href="https://cdn.emnify.net/api/doc/application-token.html" target="_blank">Read more about Application Token</a>.
+### Configure authorization credentials
 
-#### User Authentication 
+Next, you need to configure your authorization credentials. 
+There are two ways to do this:
 
-If you want to authenticate via user authentication, you need to add environments `EMNIFY_USERNAME` and `EMNIFY_PASSWORD`. <a href="https://cdn.emnify.net/api/doc/basic-auth.html" target="_blank">Read more about User Authentication</a>.
+#### Application token
 
-Configure one of the authentication described above and execute example.
+<!-- TODO: Replace relative path with link to docs.emnify.com when live -->
+To [authenticate via application token](https://cdn.emnify.net/api/doc/application-token.html), you need to add `EMNIFY_APPLICATION_TOKEN` as an [environment variable](../../README.md#environment-variables).
 
-OR just run via terminal:
+#### User authentication 
+
+<!-- TODO: Replace relative path with link to docs.emnify.com when live -->
+If you want to [authenticate via user authentication](https://cdn.emnify.net/api/doc/basic-auth.html), you need to add the `EMNIFY_USERNAME` and `EMNIFY_PASSWORD` [environment variables](../../README.md#environment-variables).
+
+### Execute the example
+
+After configuring one of the authentication methods described in the previous section, you can execute the example.
+
+Here's how to run it in the terminal using [Maven](https://maven.apache.org/download.cgi):
 
 ```shell
   mvn clean install exec:java
@@ -37,15 +50,15 @@ OR just run via terminal:
   mvn -f examples/quota-management/ clean install exec:java
 ```
 
-## Examples
+## Overview of the examples
 
-### Initialize the Client using environment variables
+### Initialize the client using environment variables
 
 ```java
     EMnify.authenticate();
 ```
 
-### Update Endpoint Quota data
+### Update endpoint quota data
 
 ```java
       Quota quotaForSave = new Quota();
