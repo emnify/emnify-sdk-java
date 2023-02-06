@@ -66,7 +66,7 @@ Refer to the [SSL Report table](https://www.ssllabs.com/ssltest/analyze.html?d=c
 
 ## Environment variables
 
-You can use environment variables for storing configuration like application token or base URL rather than hardcoding them into your application.
+You can use environment variables for storing configuration settings like an application token or a base URL instead of hardcoding them in your application.
 
 | Name               | Description                                                              |
 |--------------------|--------------------------------------------------------------------------|
