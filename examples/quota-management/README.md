@@ -7,13 +7,13 @@ Here's a high-level overview of what happens in the script:
 1. Authorizes the client using configured credentials
 1. Fetches a list of devices and selects the first device
 1. Checks the current state of the quota
-1. Configures a new quota with the following data:
+1. Configures a new quota with the following settings:
     - 10 MB of volume
     - Expires in 7 days
     - 15% threshold 
       - If the remaining volume goes below this percentage of the applied quota, the system will generate a [Quota threshold reached event](https://docs.emnify.com/services/events/event-types#quota-threshold-reached)
     - Exhaustion action is "Throttle" with a peak throughput of 64000 octets per second
-1. Fetches the quota data to check if the configuration has been saved successfully
+1. Fetches the quota settings to check if the configuration has been saved successfully
 
 ## Running the example
 
