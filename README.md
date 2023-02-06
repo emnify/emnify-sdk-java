@@ -71,8 +71,8 @@ You can use environment variables for storing configuration like application tok
 | Name               | Description                                                              |
 |--------------------|--------------------------------------------------------------------------|
 | `EMNIFY_BASE_PATH` | Base URL to form a request. Default value:  `https://cdn.emnify.net` |
-| `EMNIFY_APPLICATION_TOKEN`  | Variable for authentication via [application token](https://cdn.emnify.net/api/doc/application-token.html). |
-| `EMNIFY_USERNAME` and `EMNIFY_PASSWORD` | Variable for authentication via [username and password](https://cdn.emnify.net/api/doc/basic-auth.html). |
+| `EMNIFY_APPLICATION_TOKEN`  | Variable for authenticating via an [application token](https://cdn.emnify.net/api/doc/application-token.html). |
+| `EMNIFY_USERNAME` and `EMNIFY_PASSWORD` | Variables for authenticating via [username and password](https://cdn.emnify.net/api/doc/basic-auth.html). |
 
 ## Documentation
 
