@@ -1,43 +1,24 @@
-# emnify-sdk-java
+# emnify Java SDK
 
 ![Build Status](https://github.com/EMnify/emnify-sdk-java/actions/workflows/build.yaml/badge.svg)
 [![Maven Central](https://img.shields.io/maven-central/v/com.emnify.sdk/emnify)](https://search.maven.org/search?q=g:com.emnify.sdk%20AND%20a:emnify)
 [![codecov](https://codecov.io/gh/EMnify/emnify-sdk-java/branch/main/graph/badge.svg?token=PKQ5909911)](https://codecov.io/gh/EMnify/emnify-sdk-java)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=EMnify_emnify-sdk-java&metric=bugs)](https://sonarcloud.io/dashboard?id=EMnify_emnify-sdk-java)
 
-## Documentation
+Supply your swarm of IoT devices with cloud connectivity by [emnify](https://emnify.com).
+Automate your routines with this SDK for Java.  
 
-The EMnify System Documentation can be found [here](https://cdn.emnify.net/api/doc/index.html).
-
-The OpenAPI Documentation can be found [here](https://cdn.emnify.net/api/doc/swagger.html).
-
-The Java library documentation can be found [here](https://emnify.github.io/emnify-sdk-java/).
-
-## Requirements
-
-### Supported Java Versions
-
-This library supports the following Java implementations:
-
-* OpenJDK 8
-* OpenJDK 11
-* OracleJDK 8
-* OracleJDK 11
-
-### TLS Requirements
-
-Supported TLS versions can be found [here](https://www.ssllabs.com/ssltest/analyze.html?d=cdn.emnify.net&latest).
-
-## Getting Started
-
-### Installation
+## Installation
 
 The recommended method for installing the SDK is with a build automation tool, like Maven or Gradle. 
-You can add the EMnify dependency to your existing project, specifying the latest version.
+You can add the emnify dependency to your existing project, specifying the latest version.
 
-#### Maven
+> Regardless of the package manager you are using, you need to specify the latest version of the emnify Java SDK.
+> The following examples use `{version}` where this should be specified.
 
-Use the following dependency in your project to grab via Maven:
+### Maven
+
+Use the following dependency in your project to grab via [Maven](https://maven.apache.org/download.cgi):
 
 ```xml
     <dependency>
@@ -47,81 +28,62 @@ Use the following dependency in your project to grab via Maven:
     </dependency>
 ```
 
-#### Gradle
+### Gradle
+
+Use the following to add the emnify dependency to your project via [Gradle](https://gradle.org/install/):
+
 ```gradle
     implementation group: "com.emnify.sdk", name: "emnify", version: "{version}"
 ```
 
-Regardless of the package manager you are using, remember to specify the latest version of the EMnify Java SDK.
+### Compile the SDK yourself
 
 If you want to compile it yourself, here's how:
 
 ```shell
     git clone git@github.com:EMnify/emnify-sdk-java
     cd emnify-sdk-java
-    mvn install       # Requires maven, download from https://maven.apache.org/download.html
+    mvn install # Requires Maven
 ```
-If you want to build your own .jar, execute the following from within the cloned directory:
+If you want to build your own `.jar`, execute the following from within the cloned directory:
+
 ```shell
   mvn package
 ```
 
-### Environment Variables
+## Supported Java versions 
 
-You can use Environment Variables for storing configuration like application token or base URL rather than hardcoding them into your application.
+This library supports the following Java implementations:
 
-| Name                              | Description                                                                                                      |
-|-----------------------------------|------------------------------------------------------------------------------------------------------------------|
-| `EMNIFY_BASE_PATH`                  | the base URL to form a request. Default value:  `https://cdn.emnify.net`                                         |
-| `EMNIFY_APPLICATION_TOKEN`          | variable for authentication via application token. [more](https://cdn.emnify.net/api/doc/application-token.html) |
-| `EMNIFY_USERNAME` and `EMNIFY_PASSWORD` | variable for authentication via username and password. [more](https://cdn.emnify.net/api/doc/basic-auth.html)      |
+- [OpenJDK 8](https://openjdk.org/projects/jdk8/)
+- [OpenJDK 11](https://openjdk.org/projects/jdk/11/)
+- [OracleJDK 8](https://www.oracle.com/java/technologies/downloads/#java8)
+- [OracleJDK 11](https://www.oracle.com/java/technologies/downloads/#java11)
 
-### Examples
+## TLS requirements
 
-#### Initialize the Client using environment variables
+Refer to the [SSL Report table](https://www.ssllabs.com/ssltest/analyze.html?d=cdn.emnify.net&latest) for the supported Transport Layer Security (TLS) versions.
 
-```java
-    EMnify.authenticate();
-```
+## Environment variables
 
-#### Initialize the Client via passing authorization parameter
+You can use environment variables for storing configuration settings like an application token or a base URL instead of hardcoding them in your application.
 
-```java
-    String username = "user@domain.com";
-    String password = "2fd4e1c67a2d28...";
-    
-    EMnify.authenticate(username, password)
-```
+| Name               | Description                                                              |
+|--------------------|--------------------------------------------------------------------------|
+| `EMNIFY_BASE_PATH` | Base URL to form a request. Default value:  `https://cdn.emnify.net` |
+| `EMNIFY_APPLICATION_TOKEN`  | Variable for authenticating via an [application token](https://cdn.emnify.net/api/doc/application-token.html). |
+| `EMNIFY_USERNAME` and `EMNIFY_PASSWORD` | Variables for authenticating via [username and password](https://cdn.emnify.net/api/doc/basic-auth.html). |
 
-#### Initialize the Client via application token
+## Documentation
 
-```java
-    String applicationToken = "KAOp24TuMgjO2FpZmZ3ZFjSqpk7ea_mY8...";
-    
-    EMnify.authenticate(applicationToken)
-```
+Read more about working with the Java SDK and the underlying concepts in the [_emnify product documentation_](https://docs.emnify.com/sdks/java).
 
-#### Retrieve list of endpoints
+## Contributing
 
-```java
-    EMnify client = EMnify.authenticate();
-    List<Endpoint> endpoints = client.getEndpointClient().listEndpoints();
-```
+If you've found a bug or would like to add new features, [open an issue](https://github.com/emnify/emnify-sdk-java/issues/new) or [create a pull request](https://github.com/emnify/emnify-sdk-java/pulls) to this Github repository.
 
-#### Update Endpoint Quota data
+Please note that this project is governed by [emnify's Code of Conduct](https://github.com/emnify/.github/blob/main/CODE_OF_CONDUCT.md). By participating, you agree to abide by its terms.
 
-```java
-    Quota quota = new Quota();
-    quota.setVolume(actualVolume + quotaTopUpVolume);
-    quota.setExpiryDate(expirationDate);
-    quota.setThresholdPercentage(threholdPercentage);
-    quota.setActionOnExhaustion(QuotaActionOnExhaustion.throttle(QuotaActionOnExhaustion.QuotaPeakThroughput.SLOW));
-    
-    endpointClient.saveQuota(endpointId, quota);
-```
+## Get support
 
-## Getting Help
-
-If you need help installing or using the library, please [file a support ticket](https://support.emnify.com/hc/en-us/requests/new).
-
-If you've instead found a bug in the library or would like new features added, go ahead and open issues or pull requests against this repo.
+If you need help using our services, please [file a support ticket](https://support.emnify.com/hc/en-us/requests/new).
