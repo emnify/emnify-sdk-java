@@ -29,21 +29,6 @@ import static org.junit.Assert.assertTrue;
 
 public class ConfigurationTest {
 
-    @Test
-    public void test_createAuthentication_UsernamePassword_Default() {
-        Authentication authentication = Configuration.createAuthentication("username", "password");
-
-        assertNotNull(authentication);
-        assertTrue(authentication.isExpired());
-        assertFalse(authentication.isRefreshTokenValid());
-    }
-
-    @Test
-    public void test_createAuthentication_UsernamePassword_EmptyFields() {
-        Authentication authentication = Configuration.createAuthentication("", "");
-
-        assertNull(authentication);
-    }
 
     @Test
     public void test_createAuthentication_BytApplicationToken_Default() {

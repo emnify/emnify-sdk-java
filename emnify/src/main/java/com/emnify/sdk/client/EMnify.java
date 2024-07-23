@@ -35,8 +35,6 @@ import static com.emnify.sdk.client.config.Configuration.createAuthentication;
 public class EMnify {
 
     private static final String APPLICATION_TOKEN_ENV = "EMNIFY_APPLICATION_TOKEN";
-    private static final String USERNAME_ENV = "EMNIFY_USERNAME";
-    private static final String PASSWORD_ENV = "EMNIFY_PASSWORD";
 
     private final Authentication authentication;
     private final AuthenticationRetrier authenticationRetrier;
@@ -52,7 +50,6 @@ public class EMnify {
      * Performs api client authorization according to configured system environment variables:
      * <ul>
      *     <li>EMNIFY_APPLICATION_TOKEN - is used for <a href="https://cdn.emnify.net/api/doc/application-token.html" target="_blank">Application Token Authentication</a></li>
-     *     <li>EMNIFY_USERNAME and EMNIFY_USERNAME - are used for <a href="https://cdn.emnify.net/api/doc/basic-auth.html" target="_blank">User Authentication</a></li>
      * </ul>
      * @return instance of authorized EMnify Client
      * @throws SdkException if authentication failed
@@ -61,27 +58,10 @@ public class EMnify {
         Authentication authentication;
         authentication = createAuthentication(SystemUtils.getEnvironmentVariable(APPLICATION_TOKEN_ENV, ""));
 
-        if (authentication == null) {
-            String username = SystemUtils.getEnvironmentVariable(USERNAME_ENV, "");
-            String password = SystemUtils.getEnvironmentVariable(PASSWORD_ENV, "");
-            authentication = Configuration.createAuthentication(username, password);
-        }
 
         return authenticate(authentication);
     }
 
-    /**
-     * Performs api client authorization with user/password combination
-     *
-     * @param username username
-     * @param password password
-     *
-     * @return instance of authorized EMnify Client
-     * @throws SdkException if authentication failed
-     */
-    public static EMnify authenticate(String username, String password) throws SdkException {
-        return authenticate(Configuration.createAuthentication(username, password));
-    }
 
     /**
      * Performs api client authorization with application token

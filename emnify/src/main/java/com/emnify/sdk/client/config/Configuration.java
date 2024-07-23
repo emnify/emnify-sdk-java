@@ -23,7 +23,6 @@ package com.emnify.sdk.client.config;
 import com.emnify.sdk.ApiClient;
 import com.emnify.sdk.client.auth.ApplicationTokenAuthentication;
 import com.emnify.sdk.client.auth.Authentication;
-import com.emnify.sdk.client.auth.BasicAuthentication;
 import com.emnify.sdk.client.retrier.AuthenticationRetrier;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
@@ -40,13 +39,7 @@ public class Configuration extends com.emnify.sdk.Configuration {
         return apiClient;
     }
 
-    public static Authentication createAuthentication(String username, String password) {
-        if (StringUtils.isNotBlank(username) || StringUtils.isNotBlank(password)) {
-            return new BasicAuthentication(username, password);
-        }
 
-        return null;
-    }
 
     public static Authentication createAuthentication(String appToken) {
         if (StringUtils.isNotBlank(appToken)) {

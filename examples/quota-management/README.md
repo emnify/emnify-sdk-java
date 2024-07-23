@@ -32,10 +32,6 @@ There are two ways to do this:
 <!-- TODO: Replace relative path with link to docs.emnify.com when live -->
 To [authenticate via application token](https://cdn.emnify.net/api/doc/application-token.html), you need to add `EMNIFY_APPLICATION_TOKEN` as an [environment variable](../../README.md#environment-variables).
 
-#### User authentication 
-
-<!-- TODO: Replace relative path with link to docs.emnify.com when live -->
-If you want to [authenticate via user authentication](https://cdn.emnify.net/api/doc/basic-auth.html), you need to add the `EMNIFY_USERNAME` and `EMNIFY_PASSWORD` [environment variables](../../README.md#environment-variables).
 
 ### Execute the example
 

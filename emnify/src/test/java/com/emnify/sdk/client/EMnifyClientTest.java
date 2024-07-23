@@ -24,7 +24,6 @@ import java.util.Date;
 
 import com.emnify.sdk.ApiClient;
 import com.emnify.sdk.client.auth.ApplicationTokenAuthentication;
-import com.emnify.sdk.client.auth.BasicAuthentication;
 import com.emnify.sdk.client.config.Configuration;
 import com.emnify.sdk.client.exception.SdkException;
 import com.emnify.sdk.client.auth.AuthenticationTokens;
@@ -50,8 +49,6 @@ import static org.powermock.api.mockito.PowerMockito.whenNew;
 @PrepareForTest({Configuration.class, EMnify.class})
 public class EMnifyClientTest {
 
-    private static final String USERNAME = TestUtils.generateString();
-    private static final String PASSWORD = TestUtils.generateString();
     private static final String APPLICATION_TOKEN = TestUtils.getJWTToken(null);
 
     private static final Date TOKEN_EXPIRATION_DATE = DateUtils.addMinutes(new Date(), 5);
@@ -144,42 +141,5 @@ public class EMnifyClientTest {
         verify(mock).authenticate(apiClientMock);
     }
 
-    @Test
-    public void test_authenticate_basic() throws Exception {
-        BasicAuthentication mock = mock(BasicAuthentication.class);
 
-        whenNew(BasicAuthentication.class)
-                .withArguments(USERNAME, PASSWORD)
-                .thenReturn(mock);
-
-        AuthenticationTokens tokens = new AuthenticationTokens(AUTH_TOKEN, REFRESH_TOKEN);
-
-        // execute
-        EMnify client = EMnify.authenticate(USERNAME, PASSWORD);
-
-        // verify
-        verifyNew(BasicAuthentication.class).withArguments(USERNAME, PASSWORD);
-        verify(mock).authenticate(apiClientMock);
-
-        // assert
-        assertNotNull(client);
-    }
-
-    @Test
-    public void test_authenticate_basic_exception() throws Exception {
-        BasicAuthentication mock = mock(BasicAuthentication.class);
-
-        whenNew(BasicAuthentication.class)
-                .withArguments(USERNAME, PASSWORD)
-                .thenReturn(mock);
-
-        doThrow(new SdkException("Exception occurs")).when(mock).authenticate(apiClientMock);
-
-        // execute
-        TestUtils.expectException(() -> EMnify.authenticate(USERNAME, PASSWORD), SdkException.class);
-
-        // verify
-        verifyNew(BasicAuthentication.class).withArguments(USERNAME, PASSWORD);
-        verify(mock).authenticate(apiClientMock);
-    }
 }

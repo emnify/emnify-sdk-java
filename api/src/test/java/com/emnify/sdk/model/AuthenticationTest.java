@@ -56,21 +56,6 @@ public class AuthenticationTest {
         // TODO: test applicationToken
     }
 
-    /**
-     * Test the property 'username'
-     */
-    @Test
-    public void usernameTest() {
-        // TODO: test username
-    }
-
-    /**
-     * Test the property 'password'
-     */
-    @Test
-    public void passwordTest() {
-        // TODO: test password
-    }
 
     /**
      * Test the property 'refreshToken'

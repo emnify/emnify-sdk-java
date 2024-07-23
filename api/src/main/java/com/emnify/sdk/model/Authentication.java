@@ -41,13 +41,6 @@ public class Authentication {
   @SerializedName(SERIALIZED_NAME_APPLICATION_TOKEN)
   private String applicationToken;
 
-  public static final String SERIALIZED_NAME_USERNAME = "username";
-  @SerializedName(SERIALIZED_NAME_USERNAME)
-  private String username;
-
-  public static final String SERIALIZED_NAME_PASSWORD = "password";
-  @SerializedName(SERIALIZED_NAME_PASSWORD)
-  private String password;
 
   public static final String SERIALIZED_NAME_REFRESH_TOKEN = "refresh_token";
   @SerializedName(SERIALIZED_NAME_REFRESH_TOKEN)
@@ -77,50 +70,8 @@ public class Authentication {
   }
 
 
-  public Authentication username(String username) {
-    
-    this.username = username;
-    return this;
-  }
-
-   /**
-   * Get username
-   * @return username
-  **/
-  @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
-  public String getUsername() {
-    return username;
-  }
 
 
-  public void setUsername(String username) {
-    this.username = username;
-  }
-
-
-  public Authentication password(String password) {
-    
-    this.password = password;
-    return this;
-  }
-
-   /**
-   * Get password
-   * @return password
-  **/
-  @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
-  public String getPassword() {
-    return password;
-  }
-
-
-  public void setPassword(String password) {
-    this.password = password;
-  }
 
 
   public Authentication refreshToken(String refreshToken) {
@@ -156,14 +107,12 @@ public class Authentication {
     }
     Authentication authentication = (Authentication) o;
     return Objects.equals(this.applicationToken, authentication.applicationToken) &&
-        Objects.equals(this.username, authentication.username) &&
-        Objects.equals(this.password, authentication.password) &&
         Objects.equals(this.refreshToken, authentication.refreshToken);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(applicationToken, username, password, refreshToken);
+    return Objects.hash(applicationToken, refreshToken);
   }
 
   @Override
@@ -171,8 +120,6 @@ public class Authentication {
     StringBuilder sb = new StringBuilder();
     sb.append("class Authentication {\n");
     sb.append("    applicationToken: ").append(toIndentedString(applicationToken)).append("\n");
-    sb.append("    username: ").append(toIndentedString(username)).append("\n");
-    sb.append("    password: ").append(toIndentedString(password)).append("\n");
     sb.append("    refreshToken: ").append(toIndentedString(refreshToken)).append("\n");
     sb.append("}");
     return sb.toString();
