@@ -21,7 +21,6 @@
 package com.emnify.sdk.client;
 
 import com.emnify.sdk.client.auth.ApplicationTokenAuthenticationTest;
-import com.emnify.sdk.client.auth.BasicAuthenticationTest;
 import com.emnify.sdk.client.config.ConfigurationTest;
 import com.emnify.sdk.client.model.AuthenticationTokensTest;
 import com.emnify.sdk.client.model.QuotaActionOnExhaustionTest;
@@ -38,7 +37,6 @@ import org.junit.runners.Suite;
         // auth package
         AuthenticationTokensTest.class,
         ApplicationTokenAuthenticationTest.class,
-        BasicAuthenticationTest.class,
 
         // retrier
         AuthenticationRetrierTest.class,

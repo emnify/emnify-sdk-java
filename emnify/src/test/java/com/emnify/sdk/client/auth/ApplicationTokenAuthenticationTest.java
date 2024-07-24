@@ -87,8 +87,6 @@ public class ApplicationTokenAuthenticationTest {
 
         // verify
         verify(requestMock).setApplicationToken(APPLICATION_TOKEN);
-        verify(requestMock, never()).setUsername(any());
-        verify(requestMock, never()).setPassword(any());
 
         verify(authApiMock).authenticate(requestMock);
         verify(apiClientMock).setBearerToken(AUTH_TOKEN);
