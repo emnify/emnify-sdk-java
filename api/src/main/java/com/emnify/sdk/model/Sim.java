@@ -53,6 +53,10 @@ public class Sim {
   @SerializedName(SERIALIZED_NAME_IMSI)
   private String imsi;
 
+  public static final String SERIALIZED_NAME_ACTIVATE = "activate";
+  @SerializedName(SERIALIZED_NAME_ACTIVATE)
+  private Boolean activate;
+
 
   public Sim id(Integer id) {
     
@@ -145,6 +149,29 @@ public class Sim {
   }
 
 
+  public Sim activate(Boolean activate) {
+
+    this.activate = activate;
+    return this;
+  }
+
+   /**
+   * Whether the SIM is activated when it is assigned to the endpoint. Defaults to true server-side, so pass false to assign the SIM without activating it. Left null the property is omitted from the request.
+   * @return activate
+  **/
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "Whether the SIM is activated when it is assigned to the endpoint. Defaults to true server-side, so pass false to assign the SIM without activating it.")
+
+  public Boolean getActivate() {
+    return activate;
+  }
+
+
+  public void setActivate(Boolean activate) {
+    this.activate = activate;
+  }
+
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -157,12 +184,13 @@ public class Sim {
     return Objects.equals(this.id, sim.id) &&
         Objects.equals(this.iccid, sim.iccid) &&
         Objects.equals(this.msisdn, sim.msisdn) &&
-        Objects.equals(this.imsi, sim.imsi);
+        Objects.equals(this.imsi, sim.imsi) &&
+        Objects.equals(this.activate, sim.activate);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, iccid, msisdn, imsi);
+    return Objects.hash(id, iccid, msisdn, imsi, activate);
   }
 
   @Override
@@ -173,6 +201,7 @@ public class Sim {
     sb.append("    iccid: ").append(toIndentedString(iccid)).append("\n");
     sb.append("    msisdn: ").append(toIndentedString(msisdn)).append("\n");
     sb.append("    imsi: ").append(toIndentedString(imsi)).append("\n");
+    sb.append("    activate: ").append(toIndentedString(activate)).append("\n");
     sb.append("}");
     return sb.toString();
   }
