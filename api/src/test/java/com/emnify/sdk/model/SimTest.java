@@ -21,6 +21,8 @@
 
 package com.emnify.sdk.model;
 
+import com.emnify.sdk.JSON;
+import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -78,6 +80,25 @@ public class SimTest {
     @Test
     public void imsiTest() {
         // TODO: test imsi
+    }
+
+    /**
+     * Test that the property 'activate' reaches the request body.
+     *
+     * The API activates an assigned SIM by default, so a client that cannot
+     * send activate=false cannot assign a SIM without activating (and billing)
+     * it. Serialization goes through the same Gson instance ApiClient uses.
+     */
+    @Test
+    public void activateIsSerializedTest() {
+        Gson gson = JSON.createGson().create();
+
+        Assert.assertEquals("{\"id\":250,\"activate\":false}",
+                gson.toJson(new Sim().id(250).activate(false)));
+        Assert.assertEquals("{\"id\":250,\"activate\":true}",
+                gson.toJson(new Sim().id(250).activate(true)));
+        // left unset the property is omitted, so the API default applies
+        Assert.assertEquals("{\"id\":250}", gson.toJson(new Sim().id(250)));
     }
 
 }
